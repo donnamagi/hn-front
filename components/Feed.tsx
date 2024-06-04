@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Article from './Article'
+import Article from '@/components/Article'
 
 interface Article {
   by: string

@@ -1,6 +1,5 @@
-import Link from 'next/link'
 import React from 'react'
-import Feed from '../components/Feed'
+import Feed from '@/components/Feed'
 
 export default function Page() {
   return (
