@@ -1,37 +1,65 @@
+import { useState, useEffect } from 'react'
+
 interface ArticleProps {
-  Article: {
-    by: string
-    descendants: number
-    hnUrl: string
-    id: number
-    kids?: number[]
-    score: number
-    time: number
-    title: string
-    type: string
-    url: string
-  }
+  storyId: number
 }
 
-export default function Article({ Article }: ArticleProps) {
-  const domain = Article.url ? new URL(Article.url).hostname : null
+interface Article {
+  by: string
+  descendants: number
+  hnUrl: string
+  id: number
+  kids?: number[]
+  score: number
+  time: number
+  title: string
+  type: string
+  url: string
+}
+
+export default function Article({ storyId }: ArticleProps) {
+  const [article, setArticle] = useState<Article | null>(null)
+
+  const getArticle = async () => {
+    try {
+      const response = await fetch(
+        `https://hacker-news.firebaseio.com/v0/item/${storyId}.json`
+      )
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      const data: Article = await response.json()
+      setArticle(data)
+    } catch (error) {
+      console.error('Error fetching article:', error)
+    }
+  }
+
+  useEffect(() => {
+    getArticle()
+  }, [storyId])
+
+  if (!article) {
+    return <div>Loading article...</div>
+  }
+
+  const domain = article?.url ? new URL(article.url).hostname : null
+
   return (
     <>
       <div className='py-10 px-3'>
         <h2 className='text-3xl md:text-4xl font-bold text-neutral-800'>
-          {Article.title}
+          {article.title}
         </h2>
-        <div className='mt-3 pb-4 text-neutral-600'>
-          <p>
-            <a href={Article.url} rel='noopener noreferrer'>
-              {domain}
-            </a>{' '}
-            | {Article.score} points by {Article.by} |{' '}
-            <a href={Article.hnUrl} className='mb-3' rel='noopener noreferrer'>
-              {Article.descendants} comments{' '}
-            </a>
-          </p>
-        </div>
+        <p className='text-neutral-600'>
+          <a href={article.url} rel='noopener noreferrer'>
+            {domain}
+          </a>{' '}
+          | {article.score} points | by {article.by} |{' '}
+          <a href={article.hnUrl} className='mb-3' rel='noopener noreferrer'>
+            {article.descendants} comments{' '}
+          </a>
+        </p>
       </div>
       <hr />
     </>
