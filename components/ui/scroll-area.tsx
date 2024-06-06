@@ -7,7 +7,6 @@ interface ScrollAreaProps {
 
 export const ScrollArea = ({ className, children }: ScrollAreaProps) => (
   <div
-    id='scroll-area'
     className={cn('scrollable-area relative flex w-full flex-col', className)}
   >
     {children}

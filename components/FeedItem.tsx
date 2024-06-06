@@ -1,32 +1,12 @@
 import { useState, useMemo } from 'react'
 import { fetchArticle } from '@/lib/utils'
+import { ArticleType } from '@/components/Article'
 
-export interface ArticleType {
-  by: string
-  descendants: number
-  hnUrl: string
-  id: number
-  kids?: number[]
-  score: number
-  time?: number
-  title: string
-  type: string
-  url: string
-  deleted: boolean | null
-  text: string | null
-  dead: boolean | null
-  parent: number | null
-  poll: number | null
-  parts: number[] | null
-  content_summary?: string | null
-  keywords?: string[] | null
-}
-
-interface ArticleProps {
+interface FeedItemProps {
   storyId: number
 }
 
-export function FeedItem({ storyId }: ArticleProps) {
+export function FeedItem({ storyId }: FeedItemProps) {
   const [article, setArticle] = useState<ArticleType | null>(null)
 
   const getArticle = async () => {
@@ -48,7 +28,7 @@ export function FeedItem({ storyId }: ArticleProps) {
 
   return (
     <>
-      <div className='py-10 px-3'>
+      <div className='my-2'>
         <h4 className='text-sm md:text-base font-bold text-neutral-800'>
           {article.title}
         </h4>

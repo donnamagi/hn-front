@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Article } from '@/components/Article'
+import { FeedItem } from '@/components/FeedItem'
 import { fetchStoryIds } from '@/lib/utils'
 
 export function Feed({ category }: { category: string }) {
@@ -19,16 +19,10 @@ export function Feed({ category }: { category: string }) {
   getStoryIds()
 
   return (
-    <main className='flex flex-col items-center justify-between'>
-      <div className='z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex'>
-        <div className='flex flex-items-center justify-between'>
-          <div>
-            {storyIds.length > 0
-              ? storyIds.map((id) => <Article key={id} storyId={id} />)
-              : null}
-          </div>
-        </div>
-      </div>
-    </main>
+    <div className='-mt-3 text-sm'>
+      {storyIds.length > 0
+        ? storyIds.map((id) => <FeedItem key={id} storyId={id} />)
+        : null}
+    </div>
   )
 }
