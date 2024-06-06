@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { ScrollArea } from '@/components/Scrollarea'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface SideMenuProps {
   title?: string

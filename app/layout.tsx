@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { SideMenu } from '@/components/Sidemenu'
+import SideMenu from '@/components/ui/side-menu'
+import { MainMenu } from '@/components/Menu'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +21,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className={inter.className}>
         <main className='min-h-screen bg-white'>
           <div className='lg:flex h-dvh'>
-            <SideMenu className='relative hidden lg:flex' />
+            <SideMenu className='relative hidden lg:flex'>
+              <MainMenu />
+            </SideMenu>
             <div className='flex flex-1'>{children}</div>
           </div>
         </main>
