@@ -3,13 +3,17 @@
 import { useEffect, useState } from 'react'
 import Article from '@/components/Article'
 
-export default function Feed() {
+interface FeedProps {
+  category?: string
+}
+
+export default function Feed({ category }: FeedProps) {
   const [storyIds, setStoryIds] = useState<number[]>([])
 
   const getStoryIds = async () => {
     try {
       const response = await fetch(
-        'https://hacker-news.firebaseio.com/v0/topstories.json'
+        `https://hacker-news.firebaseio.com/v0/${category}.json`
       )
       if (!response.ok) {
         throw new Error('Network response was not ok')

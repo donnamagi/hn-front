@@ -11,10 +11,18 @@ interface Article {
   id: number
   kids?: number[]
   score: number
-  time: number
+  time?: number
   title: string
   type: string
   url: string
+  deleted: boolean | null
+  text: string | null
+  dead: boolean | null
+  parent: number | null
+  poll: number | null
+  parts: number[] | null
+  content_summary?: string | null
+  keywords?: string[] | null
 }
 
 export default function Article({ storyId }: ArticleProps) {
