@@ -7,7 +7,7 @@ export default function Page() {
     <ScrollArea>
       <div className='content-wrapper'>
         <div className='content'>
-          <Feed category='beststories' />
+          <Feed />
         </div>
       </div>
     </ScrollArea>

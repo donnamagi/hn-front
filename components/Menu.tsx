@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 
 const LINKS = [
-  { href: '/', label: 'Best' },
+  { href: '/best', label: 'Best' },
   { href: '/top', label: 'Top' },
   { href: '/new', label: 'New' },
   { href: '/ask', label: 'Ask HN' },

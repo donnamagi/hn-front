@@ -2,18 +2,19 @@
 
 import { useEffect, useState } from 'react'
 import Article from '@/components/Article'
+import { usePathname } from 'next/navigation'
 
-interface FeedProps {
-  category?: string
-}
-
-export default function Feed({ category }: FeedProps) {
+export default function Feed() {
   const [storyIds, setStoryIds] = useState<number[]>([])
+  let pathname = usePathname()
+  if (pathname === '/') {
+    pathname = '/best'
+  }
 
   const getStoryIds = async () => {
     try {
       const response = await fetch(
-        `https://hacker-news.firebaseio.com/v0/${category}.json`
+        `https://hacker-news.firebaseio.com/v0${pathname}stories.json`
       )
       if (!response.ok) {
         throw new Error('Network response was not ok')
