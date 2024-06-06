@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useMemo } from 'react'
+import { fetchArticle } from '@/lib/utils'
 
 interface ArticleProps {
   storyId: number
 }
 
-interface Article {
+export interface ArticleType {
   by: string
   descendants: number
   hnUrl: string
@@ -25,27 +26,19 @@ interface Article {
   keywords?: string[] | null
 }
 
-export default function Article({ storyId }: ArticleProps) {
-  const [article, setArticle] = useState<Article | null>(null)
+export function Article({ storyId }: ArticleProps) {
+  const [article, setArticle] = useState<ArticleType | null>(null)
 
   const getArticle = async () => {
     try {
-      const response = await fetch(
-        `https://hacker-news.firebaseio.com/v0/item/${storyId}.json`
-      )
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      const data: Article = await response.json()
-      setArticle(data)
-    } catch (error) {
-      console.error('Error fetching article:', error)
+      const article = await useMemo(() => fetchArticle(storyId), [storyId])
+      setArticle(article)
+    } catch (err) {
+      console.error('Error fetching article:', err)
     }
   }
 
-  useEffect(() => {
-    getArticle()
-  }, [storyId])
+  getArticle()
 
   if (!article) {
     return <div>Loading article...</div>

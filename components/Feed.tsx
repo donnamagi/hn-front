@@ -1,34 +1,22 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import Article from '@/components/Article'
-import { usePathname } from 'next/navigation'
+import { useState, useMemo } from 'react'
+import { Article } from '@/components/Article'
+import { fetchStoryIds } from '@/lib/utils'
 
-export default function Feed() {
+export function Feed({ category }: { category: string }) {
   const [storyIds, setStoryIds] = useState<number[]>([])
-  let pathname = usePathname()
-  if (pathname === '/') {
-    pathname = '/best'
-  }
 
   const getStoryIds = async () => {
     try {
-      const response = await fetch(
-        `https://hacker-news.firebaseio.com/v0${pathname}stories.json`
-      )
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      const data: number[] = await response.json()
-      setStoryIds(data.slice(0, 30))
-    } catch (error) {
-      console.error('Error fetching story IDs:', error)
+      const data = await useMemo(() => fetchStoryIds(category), [category])
+      setStoryIds(data)
+    } catch (err) {
+      console.error('Error fetching story IDs:', err)
     }
   }
 
-  useEffect(() => {
-    getStoryIds()
-  }, [])
+  getStoryIds()
 
   return (
     <main className='flex flex-col items-center justify-between'>
