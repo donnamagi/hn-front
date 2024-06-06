@@ -56,14 +56,14 @@ export default function Article({ storyId }: ArticleProps) {
   return (
     <>
       <div className='py-10 px-3'>
-        <h2 className='text-3xl md:text-4xl font-bold text-neutral-800'>
+        <h4 className='text-sm md:text-base font-bold text-neutral-800'>
           {article.title}
-        </h2>
-        <p className='text-neutral-600'>
+        </h4>
+        <p className='text-neutral-600 text-sm'>
           <a href={article.url} rel='noopener noreferrer'>
             {domain}
           </a>{' '}
-          | {article.score} points | by {article.by} |{' '}
+          | {article.score} points by {article.by} |{' '}
           <a href={article.hnUrl} className='mb-3' rel='noopener noreferrer'>
             {article.descendants} comments{' '}
           </a>
