@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
-import { fetchArticle } from '@/lib/utils'
+import { useState, useEffect } from 'react'
+import { fetchArticle, fetchComments } from '@/lib/utils'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
@@ -32,17 +32,31 @@ interface ArticleProps {
 
 export function Article({ storyId }: ArticleProps) {
   const [article, setArticle] = useState<ArticleType | null>(null)
+  const [comments, setComments] = useState<ArticleType[] | null>(null)
 
-  const getArticle = async () => {
-    try {
-      const article = await useMemo(() => fetchArticle(storyId), [storyId])
-      setArticle(article)
-    } catch (err) {
-      console.error('Error fetching article:', err)
+  useEffect(() => {
+    const getArticle = async () => {
+      try {
+        const article = await fetchArticle(storyId)
+        setArticle(article)
+      } catch (err) {
+        console.error('Error fetching article:', err)
+      }
     }
-  }
 
-  getArticle()
+    const getComments = async () => {
+      try {
+        const comments = await fetchComments(storyId)
+        setComments(comments)
+        console.log('comments:', comments)
+      } catch (err) {
+        console.error('Error fetching comments:', err)
+      }
+    }
+
+    getArticle()
+    getComments()
+  }, [storyId])
 
   if (!article) {
     return <div>Loading article...</div>

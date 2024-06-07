@@ -1,5 +1,7 @@
 import { Article } from '@/components/Article'
 import { notFound } from 'next/navigation'
+import { fetchComments } from '@/lib/utils'
+import { useMemo } from 'react'
 
 interface FeedLayoutProps {
   children: React.ReactNode
