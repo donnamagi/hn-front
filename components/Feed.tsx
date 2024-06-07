@@ -21,7 +21,9 @@ export function Feed({ category }: { category: string }) {
   return (
     <div className='-mt-3 text-sm'>
       {storyIds.length > 0
-        ? storyIds.map((id) => <FeedItem key={id} storyId={id} />)
+        ? storyIds.map((id) => (
+            <FeedItem key={id} storyId={id} category={category} />
+          ))
         : null}
     </div>
   )

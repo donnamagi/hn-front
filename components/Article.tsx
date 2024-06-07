@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useMemo } from 'react'
 import { fetchArticle } from '@/lib/utils'
 
@@ -26,7 +28,7 @@ interface ArticleProps {
   storyId: number
 }
 
-export function FeedItem({ storyId }: ArticleProps) {
+export function Article({ storyId }: ArticleProps) {
   const [article, setArticle] = useState<ArticleType | null>(null)
 
   const getArticle = async () => {
