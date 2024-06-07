@@ -16,10 +16,10 @@ export default async function FeedLayout({ params }: FeedLayoutProps) {
   }
 
   return (
-    <>
-      <div className='flex w-full'>
+    <div className='content-wrapper'>
+      <div className='content p-3 md:p-9'>
         <Article storyId={id} />
       </div>
-    </>
+    </div>
   )
 }

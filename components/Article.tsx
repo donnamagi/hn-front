@@ -2,6 +2,8 @@
 
 import { useState, useMemo } from 'react'
 import { fetchArticle } from '@/lib/utils'
+import Link from 'next/link'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export interface ArticleType {
   by: string
@@ -49,22 +51,24 @@ export function Article({ storyId }: ArticleProps) {
   const domain = article?.url ? new URL(article.url).hostname : null
 
   return (
-    <>
-      <div className='py-10 px-3'>
-        <h4 className='text-sm md:text-base font-bold text-neutral-800'>
+    <ScrollArea>
+      <div className='py-10 text-neutral-600'>
+        <h4 className='text-xl md:text-3xl font-bold text-neutral-800'>
           {article.title}
         </h4>
-        <p className='text-neutral-600 text-sm'>
-          <a href={article.url} rel='noopener noreferrer'>
-            {domain}
-          </a>{' '}
-          | {article.score} points by {article.by} |{' '}
-          <a href={article.hnUrl} className='mb-3' rel='noopener noreferrer'>
-            {article.descendants} comments{' '}
-          </a>
+        <p className=''>
+          {article.descendants} points by {article.by}
         </p>
+        {article.url && (
+          <Link
+            href={article.url}
+            rel='noopener noreferrer'
+            className='underline'
+          >
+            {domain}
+          </Link>
+        )}
       </div>
-      <hr />
-    </>
+    </ScrollArea>
   )
 }

@@ -43,7 +43,7 @@ export function FeedItem({ storyId, category }: FeedItemProps) {
             )}
             by {article.by}
             {article.descendants !== 0
-              ? `| ${article.descendants} comments`
+              ? ` | ${article.descendants} comments`
               : null}
           </p>
         </div>
