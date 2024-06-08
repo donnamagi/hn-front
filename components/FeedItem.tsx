@@ -36,11 +36,7 @@ export function FeedItem({ storyId, category }: FeedItemProps) {
             {article.title}
           </h4>
           <p className='text-neutral-600 text-sm'>
-            {article.url && (
-              <Link href={article.url} rel='noopener noreferrer'>
-                {domain} |{' '}
-              </Link>
-            )}
+            {article.url && <span>{domain} | </span>}
             by {article.by}
             {article.descendants !== 0
               ? ` | ${article.descendants} comments`
