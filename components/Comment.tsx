@@ -12,12 +12,23 @@ export interface CommentType {
   type: string
 }
 
+function decode(html: string) {
+  const txt = document.createElement('textarea')
+  txt.innerHTML = html
+  return txt.value
+}
+
+const DecodedComment = ({ text }: { text: string }) => {
+  const decodedText = decode(text)
+  return <div dangerouslySetInnerHTML={{ __html: decodedText }} />
+}
+
 export function Comment({ comment }: CommentProps) {
   return (
     <div className='content-wrapper'>
       <div className='content'>
-        <p> {comment.by}</p>
-        <p> {comment.text}</p>
+        <p className='font-bold'> {comment.by}</p>
+        <DecodedComment text={comment.text} />
       </div>
     </div>
   )
