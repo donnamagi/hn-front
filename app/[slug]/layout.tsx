@@ -10,10 +10,7 @@ interface FeedLayoutProps {
   }
 }
 
-export default async function FeedLayout({
-  children,
-  params
-}: FeedLayoutProps) {
+export default function FeedLayout({ children, params }: FeedLayoutProps) {
   const { slug } = params
 
   if (!MAIN_NAV[slug]) {
