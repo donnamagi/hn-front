@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { fetchArticle, fetchComments } from '@/lib/utils'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Comment, CommentType } from '@/components/Comment'
 
 export interface ArticleType {
   by: string
@@ -32,30 +33,29 @@ interface ArticleProps {
 
 export function Article({ storyId }: ArticleProps) {
   const [article, setArticle] = useState<ArticleType | null>(null)
-  const [comments, setComments] = useState<ArticleType[] | null>(null)
+  const [comments, setComments] = useState<CommentType[] | null>(null)
 
   useEffect(() => {
     const getArticle = async () => {
       try {
         const article = await fetchArticle(storyId)
         setArticle(article)
+        getComments(article.kids || [], storyId)
       } catch (err) {
         console.error('Error fetching article:', err)
       }
     }
 
-    const getComments = async () => {
+    const getComments = async (commentIds: number[], storyId: number) => {
       try {
-        const comments = await fetchComments(storyId)
+        const comments = await fetchComments(storyId, commentIds)
         setComments(comments)
-        console.log('comments:', comments)
       } catch (err) {
         console.error('Error fetching comments:', err)
       }
     }
 
     getArticle()
-    getComments()
   }, [storyId])
 
   if (!article) {
@@ -82,6 +82,20 @@ export function Article({ storyId }: ArticleProps) {
             {domain}
           </Link>
         )}
+      </div>
+      <hr />
+      {article.text && (
+        <div>
+          <p className='py-10 text-neutral-600'>{article.text}</p>
+          <hr />
+        </div>
+      )}
+      <div className='py-4'>
+        {comments?.map((comment) => (
+          <div key={comment.id} className='py-5'>
+            <Comment comment={comment} />
+          </div>
+        ))}
       </div>
     </ScrollArea>
   )

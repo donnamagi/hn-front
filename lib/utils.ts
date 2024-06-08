@@ -2,6 +2,7 @@ import { cache } from 'react';
 import { type ClassValue, clsx } from "clsx"
 import { ArticleType } from '@/components/Article';
 import { twMerge } from "tailwind-merge"
+import { CommentType } from '@/components/Comment';
 
 const cacheStore: { [key: string]: any } = {};
 
@@ -57,7 +58,7 @@ export const fetchArticle = cache(async (storyId: number): Promise<ArticleType> 
   }
 })
 
-export const fetchComments = cache(async (storyId: number): Promise<ArticleType[]> => {
+export const fetchComments = cache(async (storyId: number, kids: number[]): Promise<CommentType[]> => {
   const cacheKey = `comments_${storyId}`;
   const cache = getFromCache(cacheKey);
 
@@ -67,18 +68,23 @@ export const fetchComments = cache(async (storyId: number): Promise<ArticleType[
   }
 
   try {
-    const response = await fetch(
-      `https://hn.algolia.com/api/v1/search?tags=comment,story_${storyId}&page=0&hitsPerPage=10`
-    );
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data = await response.json();
-    setInCache(cacheKey, data.hits);
-    console.log(`Fetched new comments for: ${storyId}`);
-    return data.hits;
+    const commentIds = kids.slice(0, 5)
+
+    const comments = await Promise.all(commentIds.map(async (commentId) => {
+      const response = await fetch(
+        `https://hacker-news.firebaseio.com/v0/item/${commentId}.json`
+      );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json() as CommentType;
+      return data;
+      }));
+
+    setInCache(cacheKey, comments);
+    return comments;
   } catch (error) {
-    console.error('Error fetching Algolia:', error);
+    console.error('Error fetching comments:', error);
     return [];
   }
 });
