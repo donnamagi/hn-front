@@ -2,14 +2,13 @@ import { Article } from '@/components/Article'
 import { notFound } from 'next/navigation'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-interface FeedLayoutProps {
-  children: React.ReactNode
+interface ArticleProps {
   params: {
     id: number
   }
 }
 
-export default async function FeedLayout({ params }: FeedLayoutProps) {
+export default function Page({ params }: ArticleProps) {
   const { id } = params
 
   if (isNaN(id)) {
