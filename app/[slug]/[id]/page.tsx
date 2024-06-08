@@ -1,7 +1,6 @@
 import { Article } from '@/components/Article'
 import { notFound } from 'next/navigation'
-import { fetchComments } from '@/lib/utils'
-import { useMemo } from 'react'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface FeedLayoutProps {
   children: React.ReactNode
@@ -18,10 +17,12 @@ export default async function FeedLayout({ params }: FeedLayoutProps) {
   }
 
   return (
-    <div className='content-wrapper'>
-      <div className='content p-3 md:p-9'>
-        <Article storyId={id} />
+    <ScrollArea>
+      <div className='content-wrapper'>
+        <div className='content p-3 md:p-9'>
+          <Article storyId={id} />
+        </div>
       </div>
-    </div>
+    </ScrollArea>
   )
 }

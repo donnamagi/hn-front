@@ -79,4 +79,13 @@
   .scrollable-area {
     @apply h-full overflow-y-auto overflow-x-hidden;
   }
+
+  .p-margin {
+    p {
+      @apply my-3;
+    }
+    a {
+      @apply text-primary underline;
+    }
+  }
 }
