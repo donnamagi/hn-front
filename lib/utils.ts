@@ -60,7 +60,7 @@ export const fetchArticle = async (storyId: number): Promise<ArticleType> => {
   }
 }
 
-export const fetchComments = cache(async (storyId: number, kids: number[]): Promise<CommentType[]> => {
+export const fetchCommentIds = cache(async (storyId: number, kids: number[]): Promise<number[]> => {
   const cacheKey = `comments_${storyId}`;
   if (cacheStore && cacheStore[cacheKey]) {
     return cacheStore[cacheKey];
@@ -68,23 +68,37 @@ export const fetchComments = cache(async (storyId: number, kids: number[]): Prom
 
   try {
     const commentIds = kids.slice(0, 5)
+    setInCache(cacheKey, commentIds);
 
-    const comments = await Promise.all(commentIds.map(async (commentId) => {
-      const response = await fetch(
-        `https://hacker-news.firebaseio.com/v0/item/${commentId}.json`
-      );
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json() as CommentType;
-      return data;
-      }));
+    return commentIds;
 
-    setInCache(cacheKey, comments);
-    return comments;
   } catch (error) {
     console.error('Error fetching comments:', error);
     return [];
+  }
+});
+
+export const fetchComment = cache(async (commentId: number): Promise<CommentType> => {
+  const cacheKey = `comment_${commentId}`;
+  if (cacheStore && cacheStore[cacheKey]) {
+    return cacheStore[cacheKey];
+  }
+
+  try {
+    const response = await fetch(
+      `https://hacker-news.firebaseio.com/v0/item/${commentId}.json`
+    );
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    setInCache(cacheKey, data);
+    return data;
+
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    return {} as CommentType;
   }
 });
 

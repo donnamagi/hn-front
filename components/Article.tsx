@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { fetchArticle, fetchComments } from '@/lib/utils'
+import { fetchArticle } from '@/lib/utils'
 import { DecodedTextArea } from '@/components/Comment'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -35,7 +35,7 @@ interface ArticleProps {
 
 export function Article({ storyId }: ArticleProps) {
   const [article, setArticle] = useState<ArticleType | null>(null)
-  const [comments, setComments] = useState<CommentType[] | null>(null)
+  const [commentIds, setCommentIds] = useState<number[] | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -43,18 +43,9 @@ export function Article({ storyId }: ArticleProps) {
       try {
         const article = await fetchArticle(storyId)
         setArticle(article)
-        getComments(article.kids || [], storyId)
+        setCommentIds(article.kids?.slice(0, 5) || [])
       } catch (err) {
         console.error('Error fetching article:', err)
-      }
-    }
-
-    const getComments = async (commentIds: number[], storyId: number) => {
-      try {
-        const comments = await fetchComments(storyId, commentIds)
-        setComments(comments)
-      } catch (err) {
-        console.error('Error fetching comments:', err)
       } finally {
         setLoading(false)
       }
@@ -99,14 +90,12 @@ export function Article({ storyId }: ArticleProps) {
                   <hr />
                 </div>
               )}
-              <div className='py-4'>
-                {comments &&
-                  comments.map((comment) => (
-                    <div key={comment.id} className='py-5'>
-                      <Comment comment={comment} />
-                    </div>
-                  ))}
-              </div>
+              {commentIds &&
+                commentIds.map((commentId) => (
+                  <div key={commentId} className='-ms-5'>
+                    <Comment commentId={commentId} />
+                  </div>
+                ))}
             </div>
           )}
         </div>
