@@ -6,10 +6,9 @@ import { Navlink } from '@/components/Navlink'
 interface FeedItemProps {
   storyId: number
   category: string
-  isActive?: boolean
 }
 
-export function FeedItem({ storyId, category, isActive }: FeedItemProps) {
+export function FeedItem({ storyId, category }: FeedItemProps) {
   const [article, setArticle] = useState<ArticleType | null>(null)
 
   const getArticle = async () => {
