@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 interface CommentProps {
   commentId: number
+  depth: number | undefined
 }
 
 export interface CommentType {
@@ -13,6 +14,7 @@ export interface CommentType {
   text: string
   time: number
   type: string
+  depth: number
 }
 
 function decode(html: string) {
@@ -31,7 +33,7 @@ export function DecodedTextArea({ text }: { text: string }) {
   )
 }
 
-export function Comment({ commentId }: CommentProps) {
+export function Comment({ commentId, depth }: CommentProps) {
   const [comment, setComment] = useState<CommentType | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -39,6 +41,7 @@ export function Comment({ commentId }: CommentProps) {
     const getComments = async (commentId: number) => {
       try {
         const comment = await fetchComment(commentId)
+        comment.depth = depth || 0
         setComment(comment)
       } catch (err) {
         console.error('Error fetching comments:', err)
@@ -53,7 +56,7 @@ export function Comment({ commentId }: CommentProps) {
   return (
     <div className='py-5 ms-5'>
       <div
-        className={`transition-all duration-100 ${
+        className={`transition-all duration-200 ${
           loading ? 'opacity-0' : 'opacity-100'
         }`}
       >
@@ -64,7 +67,10 @@ export function Comment({ commentId }: CommentProps) {
               <DecodedTextArea text={comment.text} />
             </div>
             {comment.kids &&
-              comment.kids.map((kid) => <Comment key={kid} commentId={kid} />)}
+              comment.depth < 3 &&
+              comment.kids.map((kid) => (
+                <Comment key={kid} commentId={kid} depth={comment.depth + 1} />
+              ))}
           </div>
         )}
       </div>

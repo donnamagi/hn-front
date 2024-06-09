@@ -93,7 +93,7 @@ export function Article({ storyId }: ArticleProps) {
               {commentIds &&
                 commentIds.map((commentId) => (
                   <div key={commentId} className='-ms-5'>
-                    <Comment commentId={commentId} />
+                    <Comment commentId={commentId} depth={0} />
                   </div>
                 ))}
             </div>
