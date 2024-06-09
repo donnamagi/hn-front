@@ -33,7 +33,7 @@ export default function Sidemenu({
           </div>
         </div>
       )}
-      <div className='bg-slate-50 p-3'>{children}</div>
+      <div className='bg-slate-50 px-3'>{children}</div>
     </ScrollArea>
   )
 }
