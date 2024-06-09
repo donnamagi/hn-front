@@ -20,10 +20,10 @@ export default function FeedLayout({ children, params }: FeedLayoutProps) {
   return (
     <>
       <div className='flex w-full'>
-        <SideMenu title={MAIN_NAV[slug].label} isInner>
+        <SideMenu isInner>
           <Feed category={slug} />
         </SideMenu>
-        <div className='lg:bg-grid flex-1'>{children}</div>
+        <div className='lg:bg-dots flex-1'>{children}</div>
       </div>
     </>
   )
