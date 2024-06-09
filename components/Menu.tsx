@@ -6,7 +6,7 @@ export const MainMenu = () => (
     <div className='flex flex-col'>
       {MAIN_NAV.map(({ label, href }: NavlinkType) => (
         <Navlink key={label} href={href}>
-          <p>{label}</p>
+          <span className='text-sm'>{label}</span>
         </Navlink>
       ))}
     </div>

@@ -23,7 +23,7 @@ export default function FeedLayout({ children, params }: FeedLayoutProps) {
         <SideMenu isInner>
           <Feed category={slug} />
         </SideMenu>
-        <div className='lg:bg-dots flex-1'>{children}</div>
+        <div className='flex-1'>{children}</div>
       </div>
     </>
   )

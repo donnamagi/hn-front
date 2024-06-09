@@ -15,6 +15,10 @@ export function Feed({ category }: { category: string }) {
       try {
         const data = await fetchStoryIds(category)
         setStoryIds(data)
+
+        if (data.length > 0 && storyId === `${category}`) {
+          router.replace(`/${category}/${data[0]}`)
+        }
       } catch (err) {
         console.error('Error fetching story IDs:', err)
       }

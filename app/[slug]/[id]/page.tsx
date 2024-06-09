@@ -16,7 +16,7 @@ export default function Page({ params }: ArticleProps) {
   }
 
   return (
-    <ScrollArea className='bg-white'>
+    <ScrollArea>
       <div className='content-wrapper'>
         <div className='content p-3 md:p-9'>
           <Article storyId={id} />

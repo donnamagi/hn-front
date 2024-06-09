@@ -40,7 +40,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <main className='min-h-screen bg-white'>
+        <main className='min-h-screen'>
           <div className='lg:flex h-dvh'>
             <SideMenu className='relative hidden lg:flex'>
               <MainMenu />
