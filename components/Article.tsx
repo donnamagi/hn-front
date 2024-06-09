@@ -67,7 +67,7 @@ export function Article({ storyId }: ArticleProps) {
 
   return (
     <ScrollArea>
-      <div className='py-10 text-neutral-600'>
+      <div className='py-10'>
         <h4 className='text-xl md:text-3xl font-bold text-neutral-800'>
           {article.title}
         </h4>
@@ -78,7 +78,7 @@ export function Article({ storyId }: ArticleProps) {
           <Link
             href={article.url}
             rel='noopener noreferrer'
-            className='underline'
+            className='underline text-sm'
           >
             {domain}
           </Link>
