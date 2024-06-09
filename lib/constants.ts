@@ -1,17 +1,16 @@
-type NavLink = {
+export type NavLink = {
   href: string;
   label: string;
 };
 
-type Nav = {
-  [key: string]: NavLink;
-};
+export type Nav = NavLink[];
 
-export const MAIN_NAV: Nav = {
-  best: { href: '/best', label: 'Best' },
-  top: { href: '/top', label: 'Top' },
-  new: { href: '/new', label: 'New' },
-  ask: { href: '/ask', label: 'Ask HN' },
-  show: { href: '/show', label: 'Show HN' },
-  jobs: { href: '/jobs', label: 'Jobs' }
-};
+
+export const MAIN_NAV: Nav = [
+  { href: '/best', label: 'Best' },
+  { href: '/top', label: 'Top' },
+  { href: '/new', label: 'New' },
+  { href: '/ask', label: 'Ask HN' },
+  { href: '/show', label: 'Show HN' },
+  { href: '/jobs', label: 'Jobs' }
+];

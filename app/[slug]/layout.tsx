@@ -13,7 +13,7 @@ interface FeedLayoutProps {
 export default function FeedLayout({ children, params }: FeedLayoutProps) {
   const { slug } = params
 
-  if (!MAIN_NAV[slug]) {
+  if (!MAIN_NAV.find((nav) => nav.href === `/${slug}`)) {
     return notFound()
   }
 

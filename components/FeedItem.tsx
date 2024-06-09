@@ -1,8 +1,7 @@
 import { useState, useMemo } from 'react'
 import { fetchArticle } from '@/lib/utils'
 import { ArticleType } from '@/components/Article'
-import Link from 'next/link'
-import { cn } from '@/lib/utils'
+import { Navlink } from '@/components/Navlink'
 
 interface FeedItemProps {
   storyId: number
@@ -31,23 +30,15 @@ export function FeedItem({ storyId, category, isActive }: FeedItemProps) {
   const domain = article?.url ? new URL(article.url).hostname : null
 
   return (
-    <Link href={`/${category}/${storyId}`}>
-      <div
-        className={cn(
-          'transition-colors duration-300 my-2 text-sm',
-          isActive ? 'text-neutral-800' : 'text-neutral-400 '
-        )}
-      >
-        <h4 className='md:text-base font-bold'>{article.title}</h4>
-        <p className='text-sm'>
-          {article.url && <span>{domain} | </span>}
-          by {article.by}
-          {article.descendants !== 0
-            ? ` | ${article.descendants} comments`
-            : null}
-        </p>
-      </div>
-      <hr />
-    </Link>
+    <Navlink href={`/${category}/${storyId}`}>
+      <h4 className='md:text-base font-bold'>{article.title}</h4>
+      <p className='text-sm'>
+        {article.url && <span>{domain} | </span>}
+        by {article.by}
+        {article.descendants !== 0
+          ? ` | ${article.descendants} comments`
+          : null}
+      </p>
+    </Navlink>
   )
 }
