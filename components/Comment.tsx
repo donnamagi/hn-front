@@ -18,7 +18,7 @@ function decode(html: string) {
   return div.innerHTML
 }
 
-const DecodedComment = ({ text }: { text: string }) => {
+export function DecodedTextArea({ text }: { text: string }) {
   const decodedText = decode(text)
   return (
     <div
@@ -33,7 +33,7 @@ export function Comment({ comment }: CommentProps) {
     <div className='content-wrapper'>
       <div className='content text-sm'>
         <p className='font-bold mb-2'> {comment.by}</p>
-        <DecodedComment text={comment.text} />
+        <DecodedTextArea text={comment.text} />
       </div>
     </div>
   )

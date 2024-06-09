@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { fetchArticle, fetchComments } from '@/lib/utils'
+import { DecodedTextArea } from '@/components/Comment'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Comment, CommentType } from '@/components/Comment'
@@ -86,7 +87,9 @@ export function Article({ storyId }: ArticleProps) {
       <hr />
       {article.text && (
         <div>
-          <p className='py-10 text-neutral-600'>{article.text}</p>
+          <p className='py-10 text-neutral-800 text-sm'>
+            <DecodedTextArea text={article.text} />
+          </p>
           <hr />
         </div>
       )}
