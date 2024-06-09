@@ -18,12 +18,12 @@ export default function Sidemenu({
   return (
     <ScrollArea
       className={cn(
-        'hidden bg-neutral-50 lg:flex lg:flex-col lg:border-r',
-        isInner ? 'lg:w-80 xl:w-96' : 'lg:w-40 xl:w-60',
+        ' bg-neutral-50 flex flex-col border-r',
+        isInner ? 'w-0 md:w-60 lg:w-80 xl:w-2/5' : 'w-20 md:w-30 xl:w-40',
         className
       )}
     >
-      <div className='bg-slate-50 px-3'>{children}</div>
+      <div className='bg-slate-50 px-3 text-sm'>{children}</div>
     </ScrollArea>
   )
 }
