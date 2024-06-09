@@ -31,7 +31,7 @@ export function DecodedTextArea({ text }: { text: string }) {
 export function Comment({ comment }: CommentProps) {
   return (
     <div className='content-wrapper'>
-      <div className='content text-sm'>
+      <div className='content'>
         <p className='font-bold mb-2'> {comment.by}</p>
         <DecodedTextArea text={comment.text} />
       </div>

@@ -30,14 +30,14 @@ export function FeedItem({ storyId, category }: FeedItemProps) {
 
   return (
     <Navlink href={`/${category}/${storyId}`}>
-      <h4 className='md:text-base font-bold'>{article.title}</h4>
-      <p className='text-sm'>
+      <h4 className='text-base font-bold'>{article.title}</h4>
+      <span>
         {article.url && <span>{domain} | </span>}
         by {article.by}
         {article.descendants !== 0
           ? ` | ${article.descendants} comments`
           : null}
-      </p>
+      </span>
     </Navlink>
   )
 }

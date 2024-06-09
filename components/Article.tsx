@@ -87,7 +87,7 @@ export function Article({ storyId }: ArticleProps) {
       <hr />
       {article.text && (
         <div>
-          <p className='py-10 text-neutral-800 text-sm'>
+          <p className='py-10'>
             <DecodedTextArea text={article.text} />
           </p>
           <hr />

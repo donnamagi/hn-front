@@ -19,8 +19,8 @@ export function Navlink({ href, children }: NavlinkProps) {
     <Link href={href}>
       <div
         className={cn(
-          'transition-colors duration-300 my-3 text-sm',
-          isActive ? 'text-neutral-800' : 'text-neutral-400'
+          'transition-colors duration-300 my-3',
+          isActive ? null : 'text-neutral-400'
         )}
       >
         {children}
