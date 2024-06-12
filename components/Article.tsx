@@ -2,11 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { fetchArticle } from '@/lib/utils'
-import { DecodedTextArea } from '@/components/Comment'
+import { Comments, DecodedTextArea } from '@/components/Comment'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Comment, CommentType } from '@/components/Comment'
-import { cn } from '@/lib/utils'
 
 export interface ArticleType {
   by: string
@@ -90,12 +88,7 @@ export function Article({ storyId }: ArticleProps) {
                   <hr />
                 </div>
               )}
-              {commentIds &&
-                commentIds.map((commentId) => (
-                  <div key={commentId} className='-ms-5'>
-                    <Comment commentId={commentId} depth={0} />
-                  </div>
-                ))}
+              {commentIds && <Comments commentIds={commentIds} />}
             </div>
           )}
         </div>

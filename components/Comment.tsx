@@ -1,10 +1,6 @@
 import { fetchComment } from '@/lib/utils'
 import React, { useEffect, useState } from 'react'
-
-interface CommentProps {
-  commentId: number
-  depth: number | undefined
-}
+import { cn } from '@/lib/utils'
 
 export interface CommentType {
   by: string
@@ -33,47 +29,81 @@ export function DecodedTextArea({ text }: { text: string }) {
   )
 }
 
-export function Comment({ commentId, depth }: CommentProps) {
-  const [comment, setComment] = useState<CommentType | null>(null)
+export function Comment({ comment }: { comment: CommentType }) {
   const [loading, setLoading] = useState(true)
 
+  if (
+    comment.text === '[deleted]' ||
+    comment.text === '[delayed]' ||
+    comment.text === '[dead]' ||
+    comment.text === undefined
+  ) {
+    return null
+  }
+
   useEffect(() => {
-    const getComments = async (commentId: number) => {
-      try {
+    setLoading(false)
+  }, [])
+
+  return (
+    <div
+      className={cn('py-3 transition-all duration-300', {
+        'opacity-0': loading,
+        'opacity-100': !loading,
+        'ms-5': comment.depth === 1,
+        'ms-10': comment.depth === 2,
+        'ms-15': comment.depth === 3
+      })}
+    >
+      {comment && (
+        <div className='content-wrapper'>
+          <div className='content'>
+            <p className='font-bold mb-1'>{comment.by}</p>
+            <DecodedTextArea text={comment.text} />
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export function Comments({ commentIds }: { commentIds: number[] }) {
+  const [sortedComments, setSortedComments] = useState<CommentType[]>([])
+  const visited = new Set<number>()
+
+  if (!commentIds) return null
+
+  useEffect(() => {
+    const DFS = async (commentIds: number[], depth: number) => {
+      if (depth > 3) return
+
+      for (const commentId of commentIds) {
+        if (visited.has(commentId)) continue
+
+        visited.add(commentId)
         const comment = await fetchComment(commentId)
-        comment.depth = depth || 0
-        setComment(comment)
-      } catch (err) {
-        console.error('Error fetching comments:', err)
-      } finally {
-        setLoading(false)
+        // Set the current depth
+        comment.depth = depth++
+        setSortedComments((prev) => [...prev, comment])
+
+        if (comment.kids && comment.kids.length > 0) {
+          await DFS(comment.kids, depth++)
+        }
       }
     }
 
-    getComments(commentId)
-  }, [commentId])
+    const fetchComments = async () => {
+      await DFS(commentIds, 0)
+    }
+    fetchComments()
+  }, [commentIds])
 
   return (
-    <div className='py-5 ms-5'>
-      <div
-        className={`transition-all duration-200 ${
-          loading ? 'opacity-0' : 'opacity-100'
-        }`}
-      >
-        {comment && (
-          <div className='content-wrapper'>
-            <div className='content'>
-              <p className='font-bold mb-1'> {comment.by}</p>
-              <DecodedTextArea text={comment.text} />
-            </div>
-            {comment.kids &&
-              comment.depth < 3 &&
-              comment.kids.map((kid) => (
-                <Comment key={kid} commentId={kid} depth={comment.depth + 1} />
-              ))}
-          </div>
-        )}
-      </div>
-    </div>
+    <>
+      {sortedComments &&
+        sortedComments.map((comment) => (
+          <Comment key={comment.id} comment={comment} />
+        ))}
+    </>
   )
 }
