@@ -142,11 +142,7 @@ export const fetchComment = cache(async (commentId: number): Promise<CommentType
 
 export const preloadStories = () => {
   try {
-    void fetchStoryIds('top').then((data) => {
-      data.forEach((storyId) => { 
-        void fetchArticle(storyId) 
-      })
-    })
+    void fetchThisWeeksArticles()
   } catch (error) {
     console.info(error)
     return []
