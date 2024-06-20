@@ -13,7 +13,7 @@ export interface ArticleType {
   id: number
   kids?: number[]
   score: number
-  time?: number
+  time: string
   title: string
   type: string
   url: string
@@ -52,8 +52,6 @@ export function Article({ storyId }: ArticleProps) {
     getArticle()
   }, [storyId])
 
-  const domain = article?.url ? new URL(article.url).hostname : null
-
   return (
     <ScrollArea>
       <div className='py-10'>
@@ -67,19 +65,37 @@ export function Article({ storyId }: ArticleProps) {
               <h4 className='text-xl md:text-3xl font-bold text-neutral-800'>
                 {article.title}
               </h4>
-              <p>
-                {article.descendants} points by {article.by}
+              <p className='text-sm font-light mt-2'>
+                {article.descendants} points by {article.by}, posted on{' '}
+                {new Date(article.time).toLocaleString()}
               </p>
               {article.url && (
                 <Link
                   href={article.url}
                   rel='noopener noreferrer'
-                  className='underline text-sm'
+                  className='underline text-sm font-light'
                 >
-                  {domain}
+                  {new URL(article.url).hostname}
                 </Link>
               )}
-              <hr />
+              {article.content_summary && (
+                <div className='my-3'>
+                  <p>{article.content_summary}</p>
+                </div>
+              )}
+              {article.keywords && (
+                <div className='my-3 text-pretty'>
+                  {article.keywords.map((keyword) => (
+                    <span
+                      key={keyword}
+                      className='mr-2 my-3 py-1 px-2 border border-rounded text-neutral-800 text-xs rounded-full'
+                    >
+                      {keyword}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <hr className='my-3' />
               {article.text && (
                 <div>
                   <p className='py-10'>
