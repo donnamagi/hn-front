@@ -7,6 +7,7 @@ import { preloadStories } from '@/lib/utils'
 
 export default function Page() {
   preloadStories()
+
   return (
     <ScrollArea>
       <div className='content-wrapper'>
@@ -14,10 +15,10 @@ export default function Page() {
           <div className='flex flex-col items-center justify-center min-h-screen'>
             <h1 className='mb-4'>Nothing here yet :)</h1>
             <Link
-              href='/top'
+              href='/week'
               className={buttonVariants({ variant: 'outline' })}
             >
-              See top stories
+              Read up on the week
             </Link>
           </div>
         </div>
