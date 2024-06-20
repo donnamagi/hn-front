@@ -12,5 +12,5 @@ export const MAIN_NAV: Nav = [
   { href: '/new', label: 'New' },
   { href: '/ask', label: 'Ask' },
   { href: '/show', label: 'Show' },
-  { href: '/job', label: 'Jobs' }
+  { href: '/week', label: 'Week'}
 ];
