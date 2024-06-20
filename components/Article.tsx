@@ -98,10 +98,10 @@ export function Article({ storyId }: ArticleProps) {
               <hr className='my-3' />
               {article.text && (
                 <div>
-                  <p className='py-10'>
+                  <h5 className='text-lg font-bold'>{article.by}</h5>
+                  <p className='my-3'>
                     <DecodedTextArea text={article.text} />
                   </p>
-                  <hr />
                 </div>
               )}
               {commentIds && <Comments commentIds={commentIds} />}
