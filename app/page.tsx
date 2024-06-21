@@ -1,9 +1,8 @@
 'use client'
 import React from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import Link from 'next/link'
-import { buttonVariants } from '@/components/ui/button'
 import { preloadStories } from '@/lib/utils'
+import Recents from '@/components/Recents'
 
 export default function Page() {
   preloadStories()
@@ -12,14 +11,8 @@ export default function Page() {
     <ScrollArea>
       <div className='content-wrapper'>
         <div className='content'>
-          <div className='flex flex-col items-center justify-center min-h-screen'>
-            <h1 className='mb-4'>Nothing here yet :)</h1>
-            <Link
-              href='/week'
-              className={buttonVariants({ variant: 'outline' })}
-            >
-              Read up on the week
-            </Link>
+          <div className='min-h-screen w-full p-3 md:p-9'>
+            <Recents />
           </div>
         </div>
       </div>
