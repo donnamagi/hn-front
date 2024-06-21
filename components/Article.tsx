@@ -86,10 +86,7 @@ export function Article({ storyId }: ArticleProps) {
               {article.keywords && (
                 <div className='my-3 text-pretty'>
                   {article.keywords.map((keyword) => (
-                    <span
-                      key={keyword}
-                      className='mr-2 my-3 py-1 px-2 border border-rounded text-neutral-800 text-xs rounded-full'
-                    >
+                    <span key={keyword} className='badge'>
                       {keyword}
                     </span>
                   ))}

@@ -64,7 +64,7 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
   }
-  p {
+  p, h1, h2, h3, h4, h5, h6, a, button, label, input, select, textarea {
     @apply text-neutral-800 text-sm;
   }
 }
@@ -91,5 +91,9 @@
     a {
       @apply text-primary underline;
     }
+  }
+
+  .badge {
+    @apply mr-2 px-2 py-1 rounded-full border text-muted-foreground text-xs font-medium;
   }
 }
