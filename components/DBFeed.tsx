@@ -20,7 +20,9 @@ export function DBFeed() {
         setArticles(articles)
         setStoryIds(articles.map((story) => story.id))
 
-        router.push(`/week/${articles[0].id}`)
+        if (storyId === undefined) {
+          router.push(`/week/${articles[0].id}`)
+        }
       } catch (err) {
         console.error('Error fetching story IDs:', err)
       }
