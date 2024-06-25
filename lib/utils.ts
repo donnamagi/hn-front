@@ -140,11 +140,29 @@ export const fetchComment = cache(async (commentId: number): Promise<CommentType
   }
 });
 
-export const preloadStories = () => {
-  try {
-    void fetchThisWeeksArticles()
-  } catch (error) {
-    console.info(error)
-    return []
+export const fetchSimilarArticles = cache(async (storyId: number): Promise<ArticleType[]> => {
+
+  const cacheKey = `similars_${storyId}`;
+  if (cacheStore && cacheStore[cacheKey]) {
+    return cacheStore[cacheKey];
   }
-}
+
+  try {
+    const response = await fetch(
+      `https://api.hackernews.news/articles/similar/${storyId}`
+    );
+
+    if (!response.ok) {
+      throw new Error('DB response was not ok');
+    }
+
+    const data = await response.json();
+    setInCache(cacheKey, data.articles);
+
+    return data.articles;
+
+  } catch (error) {
+    console.error('Error fetching articles:', error);
+    return [];
+  }
+})
