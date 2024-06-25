@@ -114,9 +114,11 @@ export function Article({ storyId }: ArticleProps) {
                 </div>
               )}
               {commentIds && <Comments commentIds={commentIds} />}
-              <div id='similar'>
-                <Similar storyId={storyId} />
-              </div>
+              {article.content_summary && (
+                <div id='similar'>
+                  <Similar storyId={storyId} />
+                </div>
+              )}
             </div>
           )}
         </div>
