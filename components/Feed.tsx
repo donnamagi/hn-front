@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { fetchStoryIds, fetchDbArticlesById, fetchArticle } from '@/lib/utils'
 import { ArticleType } from '@/components/Article'
-import { DBFeedItem } from './DBFeedItem'
+import { FeedItem } from '@/components/FeedItem'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export function Feed({ category }: { category: string }) {
@@ -90,7 +90,7 @@ export function Feed({ category }: { category: string }) {
           const article = articles.find((article) => article.id === id)
           if (article) {
             return (
-              <DBFeedItem
+              <FeedItem
                 key={article.id}
                 category={category}
                 article={article}
