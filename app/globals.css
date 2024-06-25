@@ -93,6 +93,10 @@
     }
   }
 
+  pre {
+    @apply whitespace-pre-wrap;
+  }
+
   .badge {
     @apply mr-2 px-2 py-1 rounded-full border text-muted-foreground text-xs font-medium;
   }
