@@ -19,7 +19,7 @@ export function ArticleCard({ article }: CardProps) {
     <Link href={`/best/${article.id}`}>
       <Card
         key={article.id}
-        className='transition-all duration-100 shadow-sm hover:shadow-md'
+        className='transition-all duration-100 border-slate-800 shadow-sm hover:shadow-md'
       >
         <CardHeader>
           <CardTitle>{article.title}</CardTitle>
