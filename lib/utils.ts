@@ -3,6 +3,7 @@ import { type ClassValue, clsx } from "clsx"
 import { ArticleType } from '@/components/Article';
 import { twMerge } from "tailwind-merge"
 import { CommentType } from '@/components/Comment';
+import { HN_API, BACKEND } from '@/lib/constants';
 
 const cacheStore: { [key: string]: any } = {};
 
@@ -15,6 +16,41 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+const fetchBackendData = async (path: string) => {
+
+  const response = await fetch(BACKEND + path);
+  if (!response.ok) {
+    throw new Error('Response not OK');
+  }
+  return response.json();
+}
+
+const fetchHNData = async (path: string) => {
+
+  const response = await fetch(HN_API + path);
+  if (!response.ok) {
+    throw new Error('Response not OK');
+  }
+  return response.json();
+}
+
+const postBackendData = async (path: string, data: any) => {
+
+  const response = await fetch( BACKEND + path , {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    throw new Error('Response not OK');
+  }
+
+  return response.json();
+}
+
 export const fetchStoryIds = async (category:string): Promise<number[]> => {
   const cacheKey = `${category}`;
   if (cacheStore && cacheStore[cacheKey]) {
@@ -22,15 +58,13 @@ export const fetchStoryIds = async (category:string): Promise<number[]> => {
   }
 
   try {
-    const response = await fetch(
-      `https://hacker-news.firebaseio.com/v0/${category}stories.json`
+    const data = await fetchHNData(
+      `/${category}stories.json`
     );
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data = await response.json();
+
     const sliced = data.slice(0, 30);
     setInCache(cacheKey, sliced);
+
     return sliced;
   } catch (error) {
     console.error('Error fetching story IDs:', error);
@@ -38,38 +72,34 @@ export const fetchStoryIds = async (category:string): Promise<number[]> => {
   }
 };
 
+// Tries DB first, then falls back to HN API
 export const fetchArticle = async (storyId: number): Promise<ArticleType> => {
   const cacheKey = `${storyId}`;
   if (cacheStore && cacheStore[cacheKey]) {
     return cacheStore[cacheKey];
   }
+  try {
+    const data = await fetchBackendData(
+      `/articles/${storyId}`
+    )
+
+    if (data.article) {
+      setInCache(cacheKey, data.article);
+      return data.article
+    }
+  } catch (error) {}
 
   try {
-    const response = await fetch(
-      `https://hacker-news.firebaseio.com/v0/item/${storyId}.json`
+    const data = await fetchHNData(
+      `/item/${storyId}.json`
     )
-    if (!response.ok) {
-      throw new Error('Network response was not ok')
-    }
-    const data = await response.json()
-    setInCache(cacheKey, data);
-    return data
-  } catch (error) {
-    console.error('Error fetching article:', error)
-    return {} as ArticleType
-  }
-}
 
-export const fetchDbArticle = async (storyId: number): Promise<ArticleType> => {
-  try { 
-    const response = await fetch(
-      `https://api.hackernews.news/articles/${storyId}`
-    )
-    if (!response.ok) {
-      throw new Error('DB response was not ok')
+    if (!data.article) {
+      throw new Error('No article found')
     }
-    const data = await response.json()
-    return data
+
+    setInCache(cacheKey, data.article);
+    return data.article
   } catch (error) {
     console.error('Error fetching article:', error)
     return {} as ArticleType
@@ -78,20 +108,11 @@ export const fetchDbArticle = async (storyId: number): Promise<ArticleType> => {
 
 export const fetchDbArticlesById = async (ids: number[]) => {
   try { 
-    const response = await fetch(
-      'https://api.hackernews.news/articles/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ ids })
-      }
+    const data = await postBackendData(
+      '/articles/', 
+      { ids }
     )
 
-    if (!response.ok) {
-      throw new Error('DB response was not ok')
-    }
-    const data = await response.json()
     data.articles.forEach((article: ArticleType) => {
       setInCache(`${article.id}`, article)
     })
@@ -105,14 +126,9 @@ export const fetchDbArticlesById = async (ids: number[]) => {
 
 export const fetchThisWeeksArticles = async (): Promise<ArticleType[]> => {
   try {
-    const response = await fetch(
-      `https://api.hackernews.news/articles/week`
+    const data = await fetchBackendData(
+      '/articles/week'
     )
-
-    if (!response.ok) {
-      throw new Error('DB response was not ok')
-    }
-    const data = await response.json()
 
     data.articles.forEach((article: ArticleType) => {
       setInCache(`${article.id}`, article)
@@ -150,14 +166,10 @@ export const fetchComment = cache(async (commentId: number): Promise<CommentType
   }
 
   try {
-    const response = await fetch(
-      `https://hacker-news.firebaseio.com/v0/item/${commentId}.json`
+    const data = await fetchHNData(
+      `/item//${commentId}.json`
     );
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
 
-    const data = await response.json();
     setInCache(cacheKey, data);
     return data;
 
@@ -175,17 +187,11 @@ export const fetchSimilarArticles = cache(async (storyId: number): Promise<Artic
   }
 
   try {
-    const response = await fetch(
-      `https://api.hackernews.news/articles/similar/${storyId}`
+    const data = await fetchBackendData(
+      `/articles/similar/${storyId}`
     );
 
-    if (!response.ok) {
-      throw new Error('DB response was not ok');
-    }
-
-    const data = await response.json();
     setInCache(cacheKey, data.articles);
-
     return data.articles;
 
   } catch (error) {
