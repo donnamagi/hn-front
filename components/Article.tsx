@@ -5,6 +5,9 @@ import { fetchArticle } from '@/lib/utils'
 import { Comments, DecodedTextArea } from '@/components/Comment'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { ArrowTopRightIcon } from '@radix-ui/react-icons'
+import { buttonVariants } from '@/components/ui/button'
+import { Similar } from '@/components/Similar'
 
 export interface ArticleType {
   by: string
@@ -92,6 +95,15 @@ export function Article({ storyId }: ArticleProps) {
                   ))}
                 </div>
               )}
+              {article.content_summary && (
+                <Link
+                  className={buttonVariants({ variant: 'default', size: 'sm' })}
+                  href={`#similar`}
+                >
+                  Find similar
+                  <ArrowTopRightIcon />
+                </Link>
+              )}
               <hr className='my-3' />
               {article.text && (
                 <div>
@@ -102,6 +114,9 @@ export function Article({ storyId }: ArticleProps) {
                 </div>
               )}
               {commentIds && <Comments commentIds={commentIds} />}
+              <div id='similar'>
+                <Similar storyId={storyId} />
+              </div>
             </div>
           )}
         </div>

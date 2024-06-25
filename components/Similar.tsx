@@ -16,8 +16,6 @@ export function Similar({ storyId }: ArticleProps) {
     const fetchArticles = async () => {
       try {
         const data = await fetchSimilarArticles(storyId)
-        console.log(data)
-
         setArticles(data)
       } catch (error) {
         console.error('Error fetching articles:', error)
@@ -28,7 +26,11 @@ export function Similar({ storyId }: ArticleProps) {
   }, [])
 
   return (
-    <div className=''>
+    <>
+      <hr />
+      <h1 className='text-lg md:text-2xl font-bold my-5'>
+        More articles like this
+      </h1>
       {articles.length > 0 && (
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
           {articles.map((article) => (
@@ -36,7 +38,7 @@ export function Similar({ storyId }: ArticleProps) {
           ))}
         </div>
       )}
-    </div>
+    </>
   )
 }
 
