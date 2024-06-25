@@ -76,6 +76,33 @@ export const fetchDbArticle = async (storyId: number): Promise<ArticleType> => {
   }
 }
 
+export const fetchDbArticlesById = async (ids: number[]) => {
+  try { 
+    const response = await fetch(
+      'https://api.hackernews.news/articles/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ids })
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error('DB response was not ok')
+    }
+    const data = await response.json()
+    data.articles.forEach((article: ArticleType) => {
+      setInCache(`${article.id}`, article)
+    })
+
+    return data
+  } catch (error) {
+    console.error('Error fetching article:', error)
+    return {} as ArticleType
+  }
+}
+
 export const fetchThisWeeksArticles = async (): Promise<ArticleType[]> => {
   try {
     const response = await fetch(

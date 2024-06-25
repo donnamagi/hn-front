@@ -2,13 +2,35 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { FeedItem } from '@/components/FeedItem'
-import { fetchStoryIds } from '@/lib/utils'
+import { fetchStoryIds, fetchDbArticlesById, fetchArticle } from '@/lib/utils'
+import { ArticleType } from '@/components/Article'
+import { DBFeedItem } from './DBFeedItem'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export function Feed({ category }: { category: string }) {
   const [storyIds, setStoryIds] = useState<number[]>([])
+  const [articles, setArticles] = useState<ArticleType[]>([])
   const router = useRouter()
   const storyId = usePathname().split('/').pop()
+
+  const getArticles = async () => {
+    const res = await fetchDbArticlesById(storyIds)
+
+    setArticles(res.articles)
+
+    if (res.missing_ids.length > 0) {
+      fetchMissingArticles(res.missing_ids)
+    }
+  }
+
+  const fetchMissingArticles = async (missing_ids: number[]) => {
+    await Promise.all(
+      missing_ids.map(async (id) => {
+        const missingArticle = await fetchArticle(id)
+        setArticles((prevArticles) => [...prevArticles, missingArticle])
+      })
+    )
+  }
 
   useEffect(() => {
     const getStoryIds = async () => {
@@ -25,7 +47,13 @@ export function Feed({ category }: { category: string }) {
     }
 
     getStoryIds()
-  }, [category])
+  }, [])
+
+  useEffect(() => {
+    if (storyIds.length > 0) {
+      getArticles()
+    }
+  }, [storyIds])
 
   const navigationMapping: { [key: string]: number } = {
     ArrowUp: -1,
@@ -57,9 +85,33 @@ export function Feed({ category }: { category: string }) {
 
   return (
     <>
-      {storyIds.map((id) => (
-        <FeedItem key={id} storyId={id} category={category} />
-      ))}
+      {storyIds.length > 0 &&
+        storyIds.map((id) => {
+          const article = articles.find((article) => article.id === id)
+          if (article) {
+            return (
+              <DBFeedItem
+                key={article.id}
+                category={category}
+                article={article}
+              />
+            )
+          } else {
+            return <ArticleSkeleton key={`skeleton-${id}`} />
+          }
+        })}
+    </>
+  )
+}
+
+function ArticleSkeleton() {
+  return (
+    <>
+      <div className='space-y-2 my-4'>
+        <Skeleton className='h-4 w-5/6 bg-slate-200' />
+        <Skeleton className='h-4 w-2/3 bg-slate-200' />
+      </div>
+      <hr />
     </>
   )
 }
