@@ -19,7 +19,7 @@ export default function Page({ params }: ArticleProps) {
     <ScrollArea>
       <div className='content-wrapper'>
         <div className='content p-3 md:p-9'>
-          <Article storyId={id} />
+          <Article articleId={id} />
         </div>
       </div>
     </ScrollArea>

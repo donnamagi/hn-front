@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { ArticleCard } from '@/components/Card'
-import { fetchThisWeeksArticles } from '@/lib/utils'
+import { fetchArticles, fetchArticleIds } from '@/lib/utils'
 import { ArticleType } from '@/components/Article'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
@@ -11,20 +11,20 @@ const Recents: React.FC = () => {
   const [articles, setArticles] = useState<ArticleType[]>([])
 
   useEffect(() => {
-    const fetchArticles = async () => {
+    const fetchBestArticles = async () => {
       try {
-        const data = await fetchThisWeeksArticles()
-        // sort out the 3 highest rated articles
-        const sorted = data.sort(
-          (a: { score: number }, b: { score: number }) => b.score - a.score
-        )
-        setArticles(sorted.slice(0, 6))
+        const ids = await fetchArticleIds('best')
+
+        const articles = await fetchArticles(ids.slice(0, 6))
+
+        // sort out the 6 highest rated articles
+        setArticles(articles)
       } catch (error) {
         console.error('Error fetching articles:', error)
       }
     }
 
-    fetchArticles()
+    fetchBestArticles()
   }, [])
 
   return (

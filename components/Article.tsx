@@ -31,10 +31,10 @@ export interface ArticleType {
 }
 
 interface ArticleProps {
-  storyId: number
+  articleId: number
 }
 
-export function Article({ storyId }: ArticleProps) {
+export function Article({ articleId }: ArticleProps) {
   const [article, setArticle] = useState<ArticleType | null>(null)
   const [commentIds, setCommentIds] = useState<number[] | null>(null)
   const [loading, setLoading] = useState(true)
@@ -42,7 +42,7 @@ export function Article({ storyId }: ArticleProps) {
   useEffect(() => {
     const getArticle = async () => {
       try {
-        const article = await fetchArticle(storyId)
+        const article = await fetchArticle(articleId)
         setArticle(article)
         setCommentIds(article.kids?.slice(0, 5) || [])
       } catch (err) {
@@ -53,7 +53,7 @@ export function Article({ storyId }: ArticleProps) {
     }
 
     getArticle()
-  }, [storyId])
+  }, [articleId])
 
   return (
     <ScrollArea>
@@ -116,7 +116,7 @@ export function Article({ storyId }: ArticleProps) {
               {commentIds && <Comments commentIds={commentIds} />}
               {article.content_summary && (
                 <div id='similar'>
-                  <Similar storyId={storyId} />
+                  <Similar articleId={articleId} />
                 </div>
               )}
             </div>

@@ -2,19 +2,19 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { fetchStoryIds, fetchDbArticlesById, fetchArticle } from '@/lib/utils'
+import { fetchArticleIds, fetchDbArticlesById, fetchArticle } from '@/lib/utils'
 import { ArticleType } from '@/components/Article'
 import { FeedItem } from '@/components/FeedItem'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export function Feed({ category }: { category: string }) {
-  const [storyIds, setStoryIds] = useState<number[]>([])
+  const [articleIds, setArticleIds] = useState<number[]>([])
   const [articles, setArticles] = useState<ArticleType[]>([])
   const router = useRouter()
-  const storyId = usePathname().split('/').pop()
+  const articleId = usePathname().split('/').pop()
 
   const getArticles = async () => {
-    const res = await fetchDbArticlesById(storyIds)
+    const res = await fetchDbArticlesById(articleIds)
 
     setArticles(res.articles)
 
@@ -33,27 +33,27 @@ export function Feed({ category }: { category: string }) {
   }
 
   useEffect(() => {
-    const getStoryIds = async () => {
+    const getArticleIds = async () => {
       try {
-        const data = await fetchStoryIds(category)
-        setStoryIds(data)
+        const data = await fetchArticleIds(category)
+        setArticleIds(data)
 
-        if (data.length > 0 && storyId === `${category}`) {
+        if (data.length > 0 && articleId === `${category}`) {
           router.replace(`/${category}/${data[0]}`)
         }
       } catch (err) {
-        console.error('Error fetching story IDs:', err)
+        console.error('Error fetching article IDs:', err)
       }
     }
 
-    getStoryIds()
+    getArticleIds()
   }, [])
 
   useEffect(() => {
-    if (storyIds.length > 0) {
+    if (articleIds.length > 0) {
       getArticles()
     }
-  }, [storyIds])
+  }, [articleIds])
 
   const navigationMapping: { [key: string]: number } = {
     ArrowUp: -1,
@@ -62,18 +62,18 @@ export function Feed({ category }: { category: string }) {
 
   const onKeyNav = useCallback(
     (event: KeyboardEvent) => {
-      if (!storyId) return
+      if (!articleId) return
 
-      const currentIndex = storyIds.indexOf(Number(storyId))
+      const currentIndex = articleIds.indexOf(Number(articleId))
       const direction = navigationMapping[event.key]
 
       if (direction !== undefined) {
         const newIndex =
-          (currentIndex + direction + storyIds.length) % storyIds.length
-        router.push(`/${category}/${storyIds[newIndex]}`)
+          (currentIndex + direction + articleIds.length) % articleIds.length
+        router.push(`/${category}/${articleIds[newIndex]}`)
       }
     },
-    [storyId, storyIds, category, router]
+    [articleId, articleIds, category, router]
   )
 
   useEffect(() => {
@@ -85,8 +85,8 @@ export function Feed({ category }: { category: string }) {
 
   return (
     <>
-      {storyIds.length > 0 &&
-        storyIds.map((id) => {
+      {articleIds.length > 0 &&
+        articleIds.map((id) => {
           const article = articles.find((article) => article.id === id)
           if (article) {
             return (

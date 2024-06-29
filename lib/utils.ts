@@ -51,7 +51,7 @@ const postBackendData = async (path: string, data: any) => {
   return response.json();
 }
 
-export const fetchStoryIds = async (category:string): Promise<number[]> => {
+export const fetchArticleIds = async (category:string): Promise<number[]> => {
   const cacheKey = `${category}`;
   if (cacheStore && cacheStore[cacheKey]) {
     return cacheStore[cacheKey];
@@ -67,20 +67,20 @@ export const fetchStoryIds = async (category:string): Promise<number[]> => {
 
     return sliced;
   } catch (error) {
-    console.error('Error fetching story IDs:', error);
+    console.error('Error fetching article IDs:', error);
     return [];
   }
 };
 
 // Tries DB first, then falls back to HN API
-export const fetchArticle = async (storyId: number): Promise<ArticleType> => {
-  const cacheKey = `${storyId}`;
+export const fetchArticle = async (articleId: number): Promise<ArticleType> => {
+  const cacheKey = `${articleId}`;
   if (cacheStore && cacheStore[cacheKey]) {
     return cacheStore[cacheKey];
   }
   try {
     const data = await fetchBackendData(
-      `/articles/${storyId}`
+      `/articles/${articleId}`
     )
 
     if (data.article) {
@@ -91,7 +91,7 @@ export const fetchArticle = async (storyId: number): Promise<ArticleType> => {
 
   try {
     const data = await fetchHNData(
-      `/item/${storyId}.json`
+      `/item/${articleId}.json`
     )
 
     if (!data) {
@@ -105,6 +105,29 @@ export const fetchArticle = async (storyId: number): Promise<ArticleType> => {
     return {} as ArticleType
   }
 }
+
+export const fetchArticles = async (ids: number[]) => {
+  try {
+    let data = await postBackendData(
+      '/articles/',
+      { ids }
+    )
+
+    if (data.missing_ids.length != 0) {
+      console.log('Missing articles:', data.missing_ids)
+      const missingArticles = Promise.all(
+        data.missing_ids.map(async (id: number) => await fetchHNData(`/item/${id}.json`))
+      )
+
+      data.articles.push(...await missingArticles)
+    }
+    return data.articles
+  } catch (error) {
+    console.error('Error fetching articles:', error)
+    return []
+  }
+}
+
 
 export const fetchDbArticlesById = async (ids: number[]) => {
   try { 
@@ -141,8 +164,8 @@ export const fetchThisWeeksArticles = async (): Promise<ArticleType[]> => {
   }
 }
 
-export const fetchCommentIds = cache(async (storyId: number, kids: number[]): Promise<number[]> => {
-  const cacheKey = `comments_${storyId}`;
+export const fetchCommentIds = cache(async (articleId: number, kids: number[]): Promise<number[]> => {
+  const cacheKey = `comments_${articleId}`;
   if (cacheStore && cacheStore[cacheKey]) {
     return cacheStore[cacheKey];
   }
@@ -179,16 +202,16 @@ export const fetchComment = cache(async (commentId: number): Promise<CommentType
   }
 });
 
-export const fetchSimilarArticles = cache(async (storyId: number): Promise<ArticleType[]> => {
+export const fetchSimilarArticles = cache(async (articleId: number): Promise<ArticleType[]> => {
 
-  const cacheKey = `similars_${storyId}`;
+  const cacheKey = `similars_${articleId}`;
   if (cacheStore && cacheStore[cacheKey]) {
     return cacheStore[cacheKey];
   }
 
   try {
     const data = await fetchBackendData(
-      `/articles/similar/${storyId}`
+      `/articles/similar/${articleId}`
     );
 
     setInCache(cacheKey, data.articles);

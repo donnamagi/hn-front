@@ -6,16 +6,16 @@ import { fetchSimilarArticles } from '@/lib/utils'
 import { ArticleType } from '@/components/Article'
 
 interface ArticleProps {
-  storyId: number
+  articleId: number
 }
 
-export function Similar({ storyId }: ArticleProps) {
+export function Similar({ articleId }: ArticleProps) {
   const [articles, setArticles] = useState<ArticleType[]>([])
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const data = await fetchSimilarArticles(storyId)
+        const data = await fetchSimilarArticles(articleId)
         setArticles(data)
       } catch (error) {
         console.error('Error fetching articles:', error)
