@@ -94,12 +94,12 @@ export const fetchArticle = async (storyId: number): Promise<ArticleType> => {
       `/item/${storyId}.json`
     )
 
-    if (!data.article) {
+    if (!data) {
       throw new Error('No article found')
     }
 
-    setInCache(cacheKey, data.article);
-    return data.article
+    setInCache(cacheKey, data);
+    return data
   } catch (error) {
     console.error('Error fetching article:', error)
     return {} as ArticleType
