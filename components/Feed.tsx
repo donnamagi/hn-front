@@ -1,59 +1,19 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { fetchArticleIds, fetchDbArticlesById, fetchArticle } from '@/lib/utils'
-import { ArticleType } from '@/components/Article'
+import { useArticles } from '@/lib/hooks'
 import { FeedItem } from '@/components/FeedItem'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export function Feed({ category }: { category: string }) {
-  const [articleIds, setArticleIds] = useState<number[]>([])
-  const [articles, setArticles] = useState<ArticleType[]>([])
+  const { articles, articleIds, getArticles } = useArticles()
   const router = useRouter()
   const articleId = usePathname().split('/').pop()
 
-  const getArticles = async () => {
-    const res = await fetchDbArticlesById(articleIds)
-
-    setArticles(res.articles)
-
-    if (res.missing_ids.length > 0) {
-      fetchMissingArticles(res.missing_ids)
-    }
-  }
-
-  const fetchMissingArticles = async (missing_ids: number[]) => {
-    await Promise.all(
-      missing_ids.map(async (id) => {
-        const missingArticle = await fetchArticle(id)
-        setArticles((prevArticles) => [...prevArticles, missingArticle])
-      })
-    )
-  }
-
   useEffect(() => {
-    const getArticleIds = async () => {
-      try {
-        const data = await fetchArticleIds(category, 30)
-        setArticleIds(data)
-
-        if (data.length > 0 && articleId === `${category}`) {
-          router.replace(`/${category}/${data[0]}`)
-        }
-      } catch (err) {
-        console.error('Error fetching article IDs:', err)
-      }
-    }
-
-    getArticleIds()
+    getArticles(category, 30)
   }, [])
-
-  useEffect(() => {
-    if (articleIds.length > 0) {
-      getArticles()
-    }
-  }, [articleIds])
 
   const navigationMapping: { [key: string]: number } = {
     ArrowUp: -1,

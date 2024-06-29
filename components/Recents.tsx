@@ -2,52 +2,16 @@
 
 import React, { useEffect, useState } from 'react'
 import { ArticleCard } from '@/components/Card'
-import { fetchArticleIds, fetchArticle, fetchDbArticlesById } from '@/lib/utils'
-import { ArticleType } from '@/components/Article'
+import { useArticles } from '@/lib/hooks'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 
 const Recents: React.FC = () => {
-  const [articles, setArticles] = useState<ArticleType[]>([])
-  const [articleIds, setArticleIds] = useState<number[]>([])
-
-  const getArticles = async () => {
-    const res = await fetchDbArticlesById(articleIds)
-
-    setArticles(res.articles)
-
-    if (res.missing_ids.length > 0) {
-      fetchMissingArticles(res.missing_ids)
-    }
-  }
-
-  const fetchMissingArticles = async (missing_ids: number[]) => {
-    await Promise.all(
-      missing_ids.map(async (id) => {
-        const missingArticle = await fetchArticle(id)
-        setArticles((prevArticles) => [...prevArticles, missingArticle])
-      })
-    )
-  }
+  const { articles, getArticles } = useArticles()
 
   useEffect(() => {
-    const getArticleIds = async () => {
-      try {
-        const data = await fetchArticleIds('best', 6)
-        setArticleIds(data)
-      } catch (err) {
-        console.error('Error fetching article IDs:', err)
-      }
-    }
-
-    getArticleIds()
+    getArticles('best', 6)
   }, [])
-
-  useEffect(() => {
-    if (articleIds.length > 0) {
-      getArticles()
-    }
-  }, [articleIds])
 
   return (
     <div className=''>
