@@ -87,7 +87,7 @@ export function Article({ articleId }: ArticleProps) {
                 </div>
               )}
               {article.keywords && (
-                <div className='my-3 text-pretty'>
+                <div className='my-3 text-pretty gap-2 flex flex-wrap'>
                   {article.keywords.map((keyword) => (
                     <span key={keyword} className='badge'>
                       {keyword}

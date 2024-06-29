@@ -98,6 +98,6 @@
   }
 
   .badge {
-    @apply mr-2 px-2 py-1 rounded-full border border-slate-800 text-xs font-medium;
+    @apply px-2 py-1 rounded-full border border-slate-800 text-xs font-medium;
   }
 }

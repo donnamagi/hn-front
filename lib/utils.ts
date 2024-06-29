@@ -199,3 +199,24 @@ export const fetchSimilarArticles = cache(async (articleId: number): Promise<Art
     return [];
   }
 })
+
+export const fetchTopKeywords = cache(async (n: number) => {
+
+  const cacheKey = `top_keywords`;
+  if (cacheStore && cacheStore[cacheKey]) {
+    return cacheStore[cacheKey];
+  }
+
+  try {
+    const data = await fetchBackendData(
+      `/keywords/top/${n}`
+    );
+
+    setInCache(cacheKey, data.top_keywords);
+    return data.top_keywords;
+
+  } catch (error) {
+    console.error('Error fetching keywords:', error);
+    return [];
+  }
+})
