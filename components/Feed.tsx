@@ -35,7 +35,7 @@ export function Feed({ category }: { category: string }) {
   useEffect(() => {
     const getArticleIds = async () => {
       try {
-        const data = await fetchArticleIds(category)
+        const data = await fetchArticleIds(category, 30)
         setArticleIds(data)
 
         if (data.length > 0 && articleId === `${category}`) {

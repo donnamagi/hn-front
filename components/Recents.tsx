@@ -2,30 +2,52 @@
 
 import React, { useEffect, useState } from 'react'
 import { ArticleCard } from '@/components/Card'
-import { fetchArticles, fetchArticleIds } from '@/lib/utils'
+import { fetchArticleIds, fetchArticle, fetchDbArticlesById } from '@/lib/utils'
 import { ArticleType } from '@/components/Article'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 
 const Recents: React.FC = () => {
   const [articles, setArticles] = useState<ArticleType[]>([])
+  const [articleIds, setArticleIds] = useState<number[]>([])
+
+  const getArticles = async () => {
+    const res = await fetchDbArticlesById(articleIds)
+
+    setArticles(res.articles)
+
+    if (res.missing_ids.length > 0) {
+      fetchMissingArticles(res.missing_ids)
+    }
+  }
+
+  const fetchMissingArticles = async (missing_ids: number[]) => {
+    await Promise.all(
+      missing_ids.map(async (id) => {
+        const missingArticle = await fetchArticle(id)
+        setArticles((prevArticles) => [...prevArticles, missingArticle])
+      })
+    )
+  }
 
   useEffect(() => {
-    const fetchBestArticles = async () => {
+    const getArticleIds = async () => {
       try {
-        const ids = await fetchArticleIds('best')
-
-        const articles = await fetchArticles(ids.slice(0, 6))
-
-        // sort out the 6 highest rated articles
-        setArticles(articles)
-      } catch (error) {
-        console.error('Error fetching articles:', error)
+        const data = await fetchArticleIds('best', 6)
+        setArticleIds(data)
+      } catch (err) {
+        console.error('Error fetching article IDs:', err)
       }
     }
 
-    fetchBestArticles()
+    getArticleIds()
   }, [])
+
+  useEffect(() => {
+    if (articleIds.length > 0) {
+      getArticles()
+    }
+  }, [articleIds])
 
   return (
     <div className=''>

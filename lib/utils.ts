@@ -51,8 +51,8 @@ const postBackendData = async (path: string, data: any) => {
   return response.json();
 }
 
-export const fetchArticleIds = async (category:string): Promise<number[]> => {
-  const cacheKey = `${category}`;
+export const fetchArticleIds = async (category:string, n: number): Promise<number[]> => {
+  const cacheKey = `${category}_${n}`;
   if (cacheStore && cacheStore[cacheKey]) {
     return cacheStore[cacheKey];
   }
@@ -62,7 +62,7 @@ export const fetchArticleIds = async (category:string): Promise<number[]> => {
       `/${category}stories.json`
     );
 
-    const sliced = data.slice(0, 30);
+    const sliced = data.slice(0, n);
     setInCache(cacheKey, sliced);
 
     return sliced;
@@ -105,29 +105,6 @@ export const fetchArticle = async (articleId: number): Promise<ArticleType> => {
     return {} as ArticleType
   }
 }
-
-export const fetchArticles = async (ids: number[]) => {
-  try {
-    let data = await postBackendData(
-      '/articles/',
-      { ids }
-    )
-
-    if (data.missing_ids.length != 0) {
-      console.log('Missing articles:', data.missing_ids)
-      const missingArticles = Promise.all(
-        data.missing_ids.map(async (id: number) => await fetchHNData(`/item/${id}.json`))
-      )
-
-      data.articles.push(...await missingArticles)
-    }
-    return data.articles
-  } catch (error) {
-    console.error('Error fetching articles:', error)
-    return []
-  }
-}
-
 
 export const fetchDbArticlesById = async (ids: number[]) => {
   try { 
