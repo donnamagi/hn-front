@@ -120,7 +120,7 @@ export const fetchDbArticlesById = async (ids: number[]) => {
     return data
   } catch (error) {
     console.error('Error fetching article:', error)
-    return {} as ArticleType
+    return { articles: [], missing_ids: ids }
   }
 }
 
