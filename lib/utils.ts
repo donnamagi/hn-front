@@ -106,6 +106,28 @@ export const fetchArticle = async (articleId: number): Promise<ArticleType> => {
   }
 }
 
+// Tries HN API directly
+export const fetchHNArticle = async (articleId: number): Promise<ArticleType> => {
+  const cacheKey = `${articleId}`;
+  if (cacheStore && cacheStore[cacheKey]) {
+    return cacheStore[cacheKey];
+  }
+  try {
+    const data = await fetchHNData(
+      `/item/${articleId}.json`
+    )
+
+    if (!data) {
+      throw new Error('No article found')
+    }
+
+    setInCache(cacheKey, data);
+    return data
+  } catch (error) {
+    throw error
+  }
+}
+
 export const fetchDbArticlesById = async (ids: number[]) => {
   try { 
     const data = await postBackendData(
@@ -119,10 +141,10 @@ export const fetchDbArticlesById = async (ids: number[]) => {
 
     return data
   } catch (error) {
-    console.error('Error fetching article:', error)
-    return { articles: [], missing_ids: ids }
+    console.error('Error fetching articles:', error)
+    throw error
   }
-}
+} 
 
 export const fetchThisWeeksArticles = async (): Promise<ArticleType[]> => {
   try {
