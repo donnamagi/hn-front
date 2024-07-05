@@ -35,7 +35,9 @@ export function ArticleCard({ article }: CardProps) {
             <ArrowUpIcon className='w-4 h-4' />
             <span>{article.score}</span>
           </div>
-          <div className='badge'>{article.keywords?.[0]}</div>
+          {article.keywords?.[0] && (
+            <div className='badge'>{article.keywords?.[0]}</div>
+          )}
         </CardFooter>
       </Card>
     </Link>
