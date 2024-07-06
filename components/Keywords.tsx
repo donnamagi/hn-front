@@ -23,6 +23,10 @@ export function Keywords() {
     fetchKeywords()
   }, [])
 
+  const saveToLocalStorage = () => {
+    localStorage.setItem('interests', JSON.stringify(interests))
+  }
+
   return (
     <div className='my-5'>
       <div className='flex items-center justify-between my-4 ms-1'>
@@ -37,7 +41,11 @@ export function Keywords() {
             interests.length > 0 ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <Link href='/feed' className={buttonVariants({ variant: 'outline' })}>
+          <Link
+            href='/feed'
+            className={buttonVariants({ variant: 'outline' })}
+            onClick={saveToLocalStorage}
+          >
             My feed
           </Link>
         </div>

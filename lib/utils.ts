@@ -242,3 +242,17 @@ export const fetchTopKeywords = cache(async (n: number) => {
     return [];
   }
 })
+
+export const fetchArticlesByKeywords = async (keywords: string[]) => {
+  try {
+    const data = await postBackendData(
+      '/keywords/',
+      { keywords }
+    );
+
+    return data.articles;
+  } catch (error) {
+    console.error('Error fetching articles:', error);
+    return [];
+  }
+}
