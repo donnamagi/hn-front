@@ -21,7 +21,19 @@ export function Keywords() {
     }
 
     fetchKeywords()
+    getLocalStorage()
   }, [])
+
+  const getLocalStorage = () => {
+    try {
+      const storedInterests = localStorage.getItem('interests')
+      if (storedInterests) {
+        setInterests(JSON.parse(storedInterests))
+      }
+    } catch (error) {
+      console.error('Error reading interests from local storage:', error)
+    }
+  }
 
   const saveToLocalStorage = () => {
     localStorage.setItem('interests', JSON.stringify(interests))
@@ -34,7 +46,10 @@ export function Keywords() {
           <h1 className='text-lg md:text-xl font-bold'>
             Most common topics this week
           </h1>
-          <p>Get a personalized feed of articles.</p>
+          <p>
+            Get a personalized feed of articles. Start by choosing your
+            interests.
+          </p>
         </div>
         <div
           className={`transition-all duration-200 ${
@@ -57,6 +72,7 @@ export function Keywords() {
               key={keyword[0]}
               className='badge'
               size={'sm'}
+              data-state={interests.includes(keyword[0]) ? 'on' : 'off'}
               onClick={() => {
                 if (interests.includes(keyword[0])) {
                   setInterests(
