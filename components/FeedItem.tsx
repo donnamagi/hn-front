@@ -51,6 +51,7 @@ export function FeedItem({ article, category, long }: FeedItemProps) {
           )}
           {article.content_summary && (
             <div className='my-3'>
+              <h4 className='font-medium'>TLDR:</h4>
               <p>{article.content_summary}</p>
             </div>
           )}
