@@ -35,8 +35,12 @@ export function Keywords() {
     }
   }
 
-  const saveToLocalStorage = () => {
+  const refreshInterests = () => {
     localStorage.setItem('interests', JSON.stringify(interests))
+
+    if (window.location.pathname === '/feed') {
+      window.location.reload()
+    }
   }
 
   return (
@@ -59,7 +63,9 @@ export function Keywords() {
           <Link
             href='/feed'
             className={buttonVariants({ variant: 'outline' })}
-            onClick={saveToLocalStorage}
+            onClick={() => {
+              refreshInterests()
+            }}
           >
             My feed
           </Link>
