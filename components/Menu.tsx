@@ -40,7 +40,7 @@ export const MainMenu = () => (
     <div className='flex flex-col'>
       <div className='flex items-center justify-center p-3'>
         <Link href='/'>
-          <span className='text-lg font-semibold tracking-tight'>
+          <span className='text-lg font-semibold tracking-tight text-primary'>
             Hacker News
           </span>
         </Link>

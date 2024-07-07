@@ -18,7 +18,7 @@ const Recents: React.FC = () => {
       <div className='flex items-center justify-between my-4 ms-1'>
         <h2 className='text-xl font-bold mb-0 pb-0'>Best of this week</h2>
         <div>
-          <Link href='/best' className={buttonVariants({ variant: 'outline' })}>
+          <Link href='/best' className={buttonVariants({ variant: 'default' })}>
             See all
           </Link>
         </div>

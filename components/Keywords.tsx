@@ -51,7 +51,7 @@ export function Keywords() {
         >
           <Link
             href='/custom'
-            className={buttonVariants({ variant: 'outline' })}
+            className={buttonVariants({ variant: 'default' })}
             onClick={() => {
               refreshInterests()
             }}
@@ -65,7 +65,6 @@ export function Keywords() {
           {keywords.map((keyword) => (
             <Toggle
               key={keyword[0]}
-              className='badge'
               size={'sm'}
               variant={'outline'}
               data-state={interests.includes(keyword[0]) ? 'on' : 'off'}

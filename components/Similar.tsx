@@ -71,7 +71,7 @@ export function SimilarDialog({ articleId }: { articleId: number }) {
   return (
     <Dialog onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant='outline'>Find Similar</Button>
+        <Button className='ms-5'>Find Similar</Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
