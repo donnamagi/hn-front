@@ -10,7 +10,7 @@ interface SideMenuProps {
   children: React.ReactNode
 }
 
-export default function Sidemenu({
+export default function SideMenu({
   isInner,
   className,
   children
@@ -19,7 +19,9 @@ export default function Sidemenu({
     <ScrollArea
       className={cn(
         ' bg-neutral-50 flex flex-col border-r',
-        isInner ? 'w-0 md:w-60 lg:w-80 xl:w-2/5' : 'w-20 md:w-30 xl:w-40',
+        isInner
+          ? 'w-0 md:w-60 lg:w-80 xl:w-2/5 w-max-xl'
+          : 'w-20 md:w-30 xl:w-56',
         className
       )}
     >

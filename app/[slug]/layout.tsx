@@ -1,6 +1,6 @@
 import SideMenu from '@/components/ui/side-menu'
 import { Feed } from '@/components/Feed'
-import { MAIN_NAV } from '@/lib/constants'
+import { MAIN_NAV } from '@/components/Menu'
 import { notFound } from 'next/navigation'
 
 interface FeedLayoutProps {
