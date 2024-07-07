@@ -3,7 +3,10 @@ import { type ClassValue, clsx } from "clsx"
 import { ArticleType } from '@/components/Article';
 import { twMerge } from "tailwind-merge"
 import { CommentType } from '@/components/Comment';
-import { HN_API, BACKEND } from '@/lib/constants';
+
+const HN_API = 'https://hacker-news.firebaseio.com/v0';
+const BACKEND = 'https://api.hackernews.news';
+
 
 const cacheStore: { [key: string]: any } = {};
 
