@@ -1,7 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { fetchArticle } from '@/lib/utils'
+import {
+  fetchArticle,
+  getLocalStorage,
+  removeLocalStorage,
+  setLocalStorage
+} from '@/lib/utils'
 import { Comments, DecodedTextArea } from '@/components/Comment'
 import Link from 'next/link'
 import { SimilarDialog } from '@/components/Similar'
@@ -103,6 +108,33 @@ function MainContentBox({
 }
 
 function ArticleHeader({ article }: { article: ArticleType }) {
+  const [interests, setInterests] = useState<string[]>([])
+
+  useEffect(() => {
+    const interests = getLocalStorage('interests')
+    setInterests(interests)
+  }, [])
+
+  const removeInterest = (interest: string) => {
+    removeLocalStorage('interests', interest)
+    setInterests([...interests.filter((i) => i !== interest)])
+  }
+
+  const addInterest = (interest: string) => {
+    const newInterest = setLocalStorage('interests', interest)
+    if (newInterest) {
+      setInterests([...interests, interest])
+    }
+  }
+
+  const toggleInterest = (interest: string) => {
+    if (interests.includes(interest)) {
+      return removeInterest(interest)
+    }
+
+    addInterest(interest)
+  }
+
   return (
     <div>
       <div className='flex items-top justify-between'>
@@ -131,7 +163,13 @@ function ArticleHeader({ article }: { article: ArticleType }) {
       {article.keywords && (
         <div className='my-3 text-pretty gap-2 flex flex-wrap'>
           {article.keywords.map((keyword) => (
-            <Badge key={keyword} variant={'interactive'}>
+            <Badge
+              key={keyword}
+              keyword={keyword}
+              interests={interests}
+              variant={'interactive'}
+              onClick={() => toggleInterest(keyword)}
+            >
               {keyword}
             </Badge>
           ))}

@@ -260,12 +260,44 @@ export const fetchArticlesByKeywords = async (keywords: string[]) => {
   }
 }
 
-export const getLocalStorage = (item: string): [] => {
+export const getLocalStorage = (item: string): string[] => {
   const localItem = localStorage.getItem(item)
   try {
     return localItem ? JSON.parse(localItem) : []
   } catch (error) {
     console.error('Error parsing interests:', error)
     return []
+  }
+}
+
+export const setLocalStorage = (item: string, data: string) => {
+  try {
+    const existing = getLocalStorage(item)
+    if (existing.includes(data)) {
+      return data
+    }
+
+    existing.push(data);
+    localStorage.setItem(item, JSON.stringify(existing))
+    return data
+  } catch (error) {
+    console.error('Error setting interests:', error)
+    return null
+  }
+}
+
+export const removeLocalStorage = (item: string, data: string) => {
+  try {
+    const existing = getLocalStorage(item)
+    if (!existing.includes(data)) {
+      return data
+    }
+
+    const updated = existing.filter(item => item !== data);
+    localStorage.setItem(item, JSON.stringify(updated))
+    return data
+  } catch (error) {
+    console.error('Error removing interests:', error)
+    return null
   }
 }
