@@ -55,30 +55,28 @@ export function Article({ articleId }: ArticleProps) {
   }, [articleId])
 
   return (
-    <ScrollArea>
-      <div className='py-10'>
-        <div
-          className={`transition-all duration-100 ${
-            loading ? 'opacity-0' : 'opacity-100'
-          }`}
-        >
-          {article && (
-            <div>
-              <ArticleHeader article={article} />
-              {article.text && (
-                <div>
-                  <h5 className='text-lg font-bold'>{article.by}</h5>
-                  <p className='my-3'>
-                    <DecodedTextArea text={article.text} />
-                  </p>
-                </div>
-              )}
-              {commentIds && <Comments commentIds={commentIds} />}
-            </div>
-          )}
-        </div>
+    <div className='flex justify-center'>
+      <div
+        className={`max-w-2xl py-10 transition-all duration-100 ${
+          loading ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
+        {article && (
+          <div>
+            <ArticleHeader article={article} />
+            {article.text && (
+              <div>
+                <h5 className='text-lg font-bold'>{article.by}</h5>
+                <p className='my-3'>
+                  <DecodedTextArea text={article.text} />
+                </p>
+              </div>
+            )}
+            {commentIds && <Comments commentIds={commentIds} />}
+          </div>
+        )}
       </div>
-    </ScrollArea>
+    </div>
   )
 }
 

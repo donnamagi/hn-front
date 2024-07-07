@@ -47,7 +47,7 @@ export function Similar({ articleId, isOpen }: ArticleProps) {
   const renderArticleList = () => (
     <div className='grid grid-cols-1'>
       {articles.map((article) => (
-        <ArticlePreview key={article.id} article={article} category='best' />
+        <ArticlePreview key={article.id} article={article} />
       ))}
     </div>
   )
