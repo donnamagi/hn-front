@@ -256,3 +256,13 @@ export const fetchArticlesByKeywords = async (keywords: string[]) => {
     return [];
   }
 }
+
+export const getLocalStorage = (item: string): [] => {
+  const localItem = localStorage.getItem(item)
+  try {
+    return localItem ? JSON.parse(localItem) : []
+  } catch (error) {
+    console.error('Error parsing interests:', error)
+    return []
+  }
+}

@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react';
-import { fetchArticleIds, fetchDbArticlesById, fetchHNArticle, fetchArticlesByKeywords } from '@/lib/utils';
+import { 
+  fetchArticleIds, 
+  fetchDbArticlesById, 
+  fetchHNArticle, 
+  fetchArticlesByKeywords, 
+  getLocalStorage 
+} from '@/lib/utils';
 import { ArticleType } from '@/components/Article';
 
 
@@ -7,7 +13,41 @@ export const useArticles = () => {
   const [articles, setArticles] = useState<ArticleType[]>([])
   const [articleIds, setArticleIds] = useState<number[]>([])
 
+  const setCustomFeed = async (keywords: string[]) => {
+    if (keywords.length === 0) {
+      return
+    }
+  
+    try {
+      const data = await fetchArticlesByKeywords(keywords)
+      setArticles(data)
+
+      const ids = data.map((article: ArticleType) => article.id)
+      setArticleIds(ids)
+    } catch (err) {
+      console.error('Error fetching articles:', err)
+    }
+  }
+
+  const getArticles = async (category:string, n:number) => {
+    if (category === 'custom') {
+      const interests = getLocalStorage('interests')
+      return setCustomFeed(interests)
+    }
+
+    try {
+      const data = await fetchArticleIds(category, n);
+      setArticleIds(data);
+    } catch (err) {
+      console.error('Error fetching article IDs:', err);
+    }
+  };
+
   useEffect(() => {
+    // custom feed gets articles from keywords directly
+    // hence no need to fetch again
+    if (articles) return; 
+
     const fetchArticles = async () => {
       if (articleIds.length === 0) return;
   
@@ -52,41 +92,6 @@ export const useArticles = () => {
   
     fetchArticles();
   }, [articleIds]);
-
-  const getCustomFeed = async (keywords: string[]) => {
-    if (keywords.length === 0) {
-      return
-    }
-  
-    try {
-      const data = await fetchArticlesByKeywords(keywords)
-      setArticles(data)
-
-      const ids = data.map((article: ArticleType) => article.id)
-      setArticleIds(ids)
-    } catch (err) {
-      console.error('Error fetching articles:', err)
-    }
-  }
-
-  const getLocalStorage = () => {
-    const interests = localStorage.getItem('interests')
-    return interests ? JSON.parse(interests) : []
-  }
-
-  const getArticles = async (category:string, n:number) => {
-    if (category === 'custom') {
-      const interests = getLocalStorage()
-      return getCustomFeed(interests)
-    }
-
-    try {
-      const data = await fetchArticleIds(category, n);
-      setArticleIds(data);
-    } catch (err) {
-      console.error('Error fetching article IDs:', err);
-    }
-  };
 
   return { articles, articleIds, getArticles };
 };

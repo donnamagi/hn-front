@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { fetchTopKeywords } from '@/lib/utils'
+import { fetchTopKeywords, getLocalStorage } from '@/lib/utils'
 import { Toggle } from '@/components/ui/toggle'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
@@ -21,19 +21,8 @@ export function Keywords() {
     }
 
     fetchKeywords()
-    getLocalStorage()
+    setInterests(getLocalStorage('interests'))
   }, [])
-
-  const getLocalStorage = () => {
-    try {
-      const storedInterests = localStorage.getItem('interests')
-      if (storedInterests) {
-        setInterests(JSON.parse(storedInterests))
-      }
-    } catch (error) {
-      console.error('Error reading interests from local storage:', error)
-    }
-  }
 
   const refreshInterests = () => {
     localStorage.setItem('interests', JSON.stringify(interests))
