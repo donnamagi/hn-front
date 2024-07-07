@@ -57,21 +57,25 @@ export function Feed({ category }: { category: string }) {
               />
             )
           } else {
-            return <ArticleSkeleton key={`skeleton-${id}`} />
+            return <FeedSkeleton key={`skeleton-${id}`} />
           }
         })}
     </>
   )
 }
 
-function ArticleSkeleton() {
+export function FeedSkeleton({ numItems = 1 }: { numItems?: number }) {
   return (
     <>
-      <div className='space-y-2 my-4'>
-        <Skeleton className='h-4 w-5/6 bg-slate-200' />
-        <Skeleton className='h-4 w-2/3 bg-slate-200' />
-      </div>
-      <hr />
+      {Array.from({ length: numItems }).map((_, i) => (
+        <div key={i}>
+          <div className='space-y-2 my-4'>
+            <Skeleton className='h-4 w-5/6 bg-slate-200' />
+            <Skeleton className='h-4 w-2/3 bg-slate-200' />
+          </div>
+          <hr />
+        </div>
+      ))}
     </>
   )
 }

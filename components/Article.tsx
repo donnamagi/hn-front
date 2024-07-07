@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { ArrowTopRightIcon } from '@radix-ui/react-icons'
 import { buttonVariants } from '@/components/ui/button'
-import { Similar } from '@/components/Similar'
+import { Similar, SimilarDialog } from '@/components/Similar'
 import { Navlink } from '@/components/Navlink'
 
 export interface ArticleType {
@@ -76,11 +76,6 @@ export function Article({ articleId }: ArticleProps) {
                 </div>
               )}
               {commentIds && <Comments commentIds={commentIds} />}
-              {article.content_summary && (
-                <div id='similar'>
-                  <Similar articleId={articleId} />
-                </div>
-              )}
             </div>
           )}
         </div>
@@ -123,15 +118,7 @@ export function ArticleHeader({ article }: { article: ArticleType }) {
           ))}
         </div>
       )}
-      {article.content_summary && (
-        <Link
-          className={buttonVariants({ variant: 'default', size: 'sm' })}
-          href={`#similar`}
-        >
-          Find similar
-          <ArrowTopRightIcon />
-        </Link>
-      )}
+      {article.content_summary && <SimilarDialog articleId={article.id} />}
       <hr className='my-3' />
     </div>
   )
