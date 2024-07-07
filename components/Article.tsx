@@ -62,14 +62,19 @@ export function Article({ articleId }: ArticleProps) {
       >
         {article && (
           <div>
-            <ArticleHeader article={article} />
-            {article.text && (
-              <div>
-                <h5 className='text-lg font-bold'>{article.by}</h5>
-                <div className='my-3'>
-                  <DecodedTextArea text={article.text} />
-                </div>
-              </div>
+            <div className='sticky top-0 z-10 border-b bg-white py-3'>
+              <ArticleHeader article={article} />
+            </div>
+            {article.text ? (
+              <MainContentBox title={article.by}>
+                <DecodedTextArea text={article.text} />
+              </MainContentBox>
+            ) : (
+              article.content_summary && (
+                <MainContentBox title='TLDR'>
+                  <p>{article.content_summary}</p>
+                </MainContentBox>
+              )
             )}
             {commentIds && <Comments commentIds={commentIds} />}
           </div>
@@ -79,31 +84,49 @@ export function Article({ articleId }: ArticleProps) {
   )
 }
 
-export function ArticleHeader({ article }: { article: ArticleType }) {
+function MainContentBox({
+  children,
+  title
+}: {
+  children: React.ReactNode
+  title: string
+}) {
+  return (
+    <div className='my-4'>
+      <div className='p-3 rounded bg-orange-50 -mt-1.5'>
+        <div className='font-medium text-orange-500 italic'>{title}</div>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function ArticleHeader({ article }: { article: ArticleType }) {
   return (
     <div>
-      <h4 className='text-xl md:text-3xl font-bold text-neutral-800'>
-        {article.title}
-      </h4>
-      <p className='text-sm font-light mt-2'>
-        {article.descendants} points by {article.by}, posted on{' '}
+      <div className='flex items-top justify-between'>
+        <h4 className='text-xl md:text-3xl font-bold text-neutral-800 tracking-tight'>
+          {article.title}
+        </h4>
+        {article.content_summary && <SimilarDialog articleId={article.id} />}
+      </div>
+      <p className='text-sm font-light mt-2 tracking-tight'>
+        {article.descendants} points by {article.by}, posted{' '}
         {new Date(article.time).toLocaleString()}
+        {article.url && (
+          <>
+            {' '}
+            on{' '}
+            <Link
+              href={article.url}
+              rel='noopener noreferrer'
+              className='underline text-sm font-light'
+            >
+              {new URL(article.url).hostname}
+            </Link>
+          </>
+        )}
       </p>
-      {article.url && (
-        <Link
-          href={article.url}
-          rel='noopener noreferrer'
-          className='underline text-sm font-light'
-        >
-          {new URL(article.url).hostname}
-        </Link>
-      )}
-      {article.content_summary && (
-        <div className='my-3'>
-          <h4 className='font-medium'>TLDR:</h4>
-          <p>{article.content_summary}</p>
-        </div>
-      )}
       {article.keywords && (
         <div className='my-3 text-pretty gap-2 flex flex-wrap'>
           {article.keywords.map((keyword) => (
@@ -113,8 +136,6 @@ export function ArticleHeader({ article }: { article: ArticleType }) {
           ))}
         </div>
       )}
-      {article.content_summary && <SimilarDialog articleId={article.id} />}
-      <hr className='my-3' />
     </div>
   )
 }
