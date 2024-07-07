@@ -7,8 +7,8 @@ export default function Page() {
   return (
     <ScrollArea>
       <div className='content-wrapper'>
-        <div className='content'>
-          <div className='min-h-screen w-full p-3 md:p-9'>
+        <div className='content flex justify-center'>
+          <div className='min-h-screen max-w-3xl p-3 md:p-9'>
             <Keywords />
             <Recents />
           </div>

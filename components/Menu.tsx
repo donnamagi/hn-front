@@ -1,5 +1,6 @@
 import { Navlink } from '@/components/Navlink'
-import { Flame, Home, Rocket, Rss, Sparkles } from '@/lib/icons'
+import { Flame, Home, Rocket, Sparkles } from '@/lib/icons'
+import Link from 'next/link'
 
 export type NavLink = {
   label: string
@@ -12,11 +13,10 @@ export type NavMap = {
 }
 
 export const MAIN_NAV: NavMap = {
-  '/': { label: 'Home', description: 'The home page', icon: <Home /> },
   '/custom': {
     label: 'Feed',
     description: 'Your custom feed',
-    icon: <Rss />
+    icon: <Home />
   },
   '/best': {
     label: 'Best',
@@ -38,6 +38,13 @@ export const MAIN_NAV: NavMap = {
 export const MainMenu = () => (
   <div className='flex w-full flex-col'>
     <div className='flex flex-col'>
+      <div className='flex items-center justify-center p-3'>
+        <Link href='/'>
+          <span className='text-lg font-semibold tracking-tight'>
+            Hacker News
+          </span>
+        </Link>
+      </div>
       {Object.keys(MAIN_NAV).map((key: string) => {
         return (
           <Navlink key={key} href={key}>
