@@ -1,10 +1,15 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { fetchTopKeywords, getLocalStorage } from '@/lib/utils'
-import { Toggle } from '@/components/ui/toggle'
+import {
+  fetchTopKeywords,
+  getLocalStorage,
+  removeLocalStorage,
+  setLocalStorage
+} from '@/lib/utils'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
+import { Badge } from './ui/badge'
 
 export function Keywords() {
   const [keywords, setKeywords] = useState([])
@@ -24,11 +29,21 @@ export function Keywords() {
     setInterests(getLocalStorage('interests'))
   }, [])
 
-  const refreshInterests = () => {
-    localStorage.setItem('interests', JSON.stringify(interests))
+  const addInterest = (keyword: string) => {
+    setInterests([...interests, keyword])
+    setLocalStorage('interests', keyword)
+  }
 
-    if (window.location.pathname === '/custom') {
-      window.location.reload()
+  const removeInterest = (keyword: string) => {
+    setInterests(interests.filter((i) => i !== keyword))
+    removeLocalStorage('interests', keyword)
+  }
+
+  const toggleInterest = (keyword: string) => {
+    if (interests.includes(keyword)) {
+      removeInterest(keyword)
+    } else {
+      addInterest(keyword)
     }
   }
 
@@ -52,9 +67,6 @@ export function Keywords() {
           <Link
             href='/custom'
             className={buttonVariants({ variant: 'default' })}
-            onClick={() => {
-              refreshInterests()
-            }}
           >
             My feed
           </Link>
@@ -63,23 +75,17 @@ export function Keywords() {
       {keywords.length !== 0 && (
         <div className='gap-2 flex flex-wrap mt-3'>
           {keywords.map((keyword) => (
-            <Toggle
+            <Badge
               key={keyword[0]}
-              size={'sm'}
-              variant={'outline'}
-              data-state={interests.includes(keyword[0]) ? 'on' : 'off'}
+              keyword={keyword[0]}
+              interests={interests}
+              variant='interactive'
               onClick={() => {
-                if (interests.includes(keyword[0])) {
-                  setInterests(
-                    interests.filter((i: string) => i !== keyword[0])
-                  )
-                } else {
-                  setInterests([...interests, keyword[0]])
-                }
+                toggleInterest(keyword[0])
               }}
             >
               {keyword[0]}
-            </Toggle>
+            </Badge>
           ))}
         </div>
       )}
