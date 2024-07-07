@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { fetchArticle } from '@/lib/utils'
 import { Comments, DecodedTextArea } from '@/components/Comment'
 import Link from 'next/link'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { SimilarDialog } from '@/components/Similar'
 import { Navlink } from '@/components/Navlink'
 
@@ -133,8 +132,8 @@ export function ArticlePreview({
     <div>
       {article && (
         <Navlink href={`/${category}/${article.id}`}>
-          <h4 className='text-base font-bold'>{article.title}</h4>
-          <span>
+          <h4 className='text-base tracking-tight'>{article.title}</h4>
+          <span className='text-neutral-500'>
             {article.url && <span>{new URL(article.url).hostname} | </span>}
             by {article.by}
             {article.descendants !== 0
