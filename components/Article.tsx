@@ -6,6 +6,7 @@ import { Comments, DecodedTextArea } from '@/components/Comment'
 import Link from 'next/link'
 import { SimilarDialog } from '@/components/Similar'
 import { Navlink } from '@/components/Navlink'
+import { Badge } from '@/components/ui/badge'
 
 export interface ArticleType {
   by: string
@@ -130,9 +131,9 @@ function ArticleHeader({ article }: { article: ArticleType }) {
       {article.keywords && (
         <div className='my-3 text-pretty gap-2 flex flex-wrap'>
           {article.keywords.map((keyword) => (
-            <span key={keyword} className='badge'>
+            <Badge key={keyword} variant={'interactive'}>
               {keyword}
-            </span>
+            </Badge>
           ))}
         </div>
       )}

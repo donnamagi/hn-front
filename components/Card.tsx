@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/card'
 import Link from 'next/link'
 import { ArrowUpIcon } from '@radix-ui/react-icons'
+import { Badge } from './ui/badge'
 
 interface CardProps {
   article: ArticleType
@@ -35,9 +36,7 @@ export function ArticleCard({ article }: CardProps) {
             <ArrowUpIcon className='w-4 h-4' />
             <span>{article.score}</span>
           </div>
-          {article.keywords?.[0] && (
-            <div className='badge'>{article.keywords?.[0]}</div>
-          )}
+          {article.keywords?.[0] && <Badge>{article.keywords?.[0]}</Badge>}
         </CardFooter>
       </Card>
     </Link>
