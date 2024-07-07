@@ -16,6 +16,7 @@ interface CardProps {
 }
 
 export function ArticleCard({ article }: CardProps) {
+  const mainKeyword = article.keywords?.[0]
   return (
     <Link href={`/best/${article.id}`}>
       <Card
@@ -36,7 +37,7 @@ export function ArticleCard({ article }: CardProps) {
             <ArrowUpIcon className='w-4 h-4' />
             <span>{article.score}</span>
           </div>
-          {article.keywords?.[0] && <Badge>{article.keywords?.[0]}</Badge>}
+          {mainKeyword && <Badge keyword={mainKeyword}>{mainKeyword}</Badge>}
         </CardFooter>
       </Card>
     </Link>
