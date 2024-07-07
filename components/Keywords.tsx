@@ -38,7 +38,7 @@ export function Keywords() {
   const refreshInterests = () => {
     localStorage.setItem('interests', JSON.stringify(interests))
 
-    if (window.location.pathname === '/feed') {
+    if (window.location.pathname === '/custom') {
       window.location.reload()
     }
   }
@@ -61,7 +61,7 @@ export function Keywords() {
           }`}
         >
           <Link
-            href='/feed'
+            href='/custom'
             className={buttonVariants({ variant: 'outline' })}
             onClick={() => {
               refreshInterests()

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchArticleIds, fetchDbArticlesById, fetchHNArticle } from '@/lib/utils';
+import { fetchArticleIds, fetchDbArticlesById, fetchHNArticle, fetchArticlesByKeywords } from '@/lib/utils';
 import { ArticleType } from '@/components/Article';
 
 
@@ -53,8 +53,33 @@ export const useArticles = () => {
     fetchArticles();
   }, [articleIds]);
 
+  const getCustomFeed = async (keywords: string[]) => {
+    if (keywords.length === 0) {
+      return
+    }
+  
+    try {
+      const data = await fetchArticlesByKeywords(keywords)
+      setArticles(data)
+
+      const ids = data.map((article: ArticleType) => article.id)
+      setArticleIds(ids)
+    } catch (err) {
+      console.error('Error fetching articles:', err)
+    }
+  }
+
+  const getLocalStorage = () => {
+    const interests = localStorage.getItem('interests')
+    return interests ? JSON.parse(interests) : []
+  }
 
   const getArticles = async (category:string, n:number) => {
+    if (category === 'custom') {
+      const interests = getLocalStorage()
+      return getCustomFeed(interests)
+    }
+
     try {
       const data = await fetchArticleIds(category, n);
       setArticleIds(data);
