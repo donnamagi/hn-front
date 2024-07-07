@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { fetchArticlesByKeywords } from '@/lib/utils'
-import { FeedItem } from '@/components/FeedItem'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ArticleType } from '@/components/Article'
+import { ArticleHeader, ArticleType } from '@/components/Article'
 import Keywords from '@/components/Keywords'
 
 export function CustomFeed() {
@@ -44,14 +43,7 @@ export function CustomFeed() {
     <>
       {articles.length > 0 ? (
         articles.map((article) => {
-          return (
-            <FeedItem
-              key={article.id}
-              category={'feed'}
-              article={article}
-              long={true}
-            />
-          )
+          return <ArticleHeader key={article.id} article={article} />
         })
       ) : (
         <Keywords />

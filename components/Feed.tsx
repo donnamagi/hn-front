@@ -3,7 +3,7 @@
 import { useEffect, useCallback } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useArticles } from '@/lib/hooks'
-import { FeedItem } from '@/components/FeedItem'
+import { ArticlePreview } from '@/components/Article'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export function Feed({ category }: { category: string }) {
@@ -50,7 +50,7 @@ export function Feed({ category }: { category: string }) {
           const article = articles.find((article) => article.id === id)
           if (article) {
             return (
-              <FeedItem
+              <ArticlePreview
                 key={article.id}
                 category={category}
                 article={article}
