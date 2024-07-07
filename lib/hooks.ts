@@ -46,7 +46,7 @@ export const useArticles = () => {
   useEffect(() => {
     // custom feed gets articles from keywords directly
     // hence no need to fetch again
-    if (articles) return; 
+    if (articles.length > 0) return; 
 
     const fetchArticles = async () => {
       if (articleIds.length === 0) return;
