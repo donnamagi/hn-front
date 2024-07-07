@@ -1,14 +1,16 @@
 import { Navlink } from '@/components/Navlink'
-import { MAIN_NAV, NavLink as NavlinkType } from '@/lib/constants'
+import { MAIN_NAV } from '@/lib/constants'
 
 export const MainMenu = () => (
   <div className='flex w-full flex-col'>
     <div className='flex flex-col'>
-      {MAIN_NAV.map(({ label, href }: NavlinkType) => (
-        <Navlink key={label} href={href}>
-          <span className='text-sm'>{label}</span>
-        </Navlink>
-      ))}
+      {Object.keys(MAIN_NAV).map((key: string) => {
+        return (
+          <Navlink key={key} href={key}>
+            {MAIN_NAV[key].label}
+          </Navlink>
+        )
+      })}
     </div>
   </div>
 )
