@@ -66,7 +66,6 @@ function ArticleSkeleton() {
             <Skeleton className='h-4 w-5/6 bg-slate-200' />
             <Skeleton className='h-4 w-3/6 bg-slate-200' />
           </div>
-          <hr />
         </div>
       ))}
     </>

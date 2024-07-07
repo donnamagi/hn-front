@@ -5,9 +5,7 @@ import { fetchArticle } from '@/lib/utils'
 import { Comments, DecodedTextArea } from '@/components/Comment'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { ArrowTopRightIcon } from '@radix-ui/react-icons'
-import { buttonVariants } from '@/components/ui/button'
-import { Similar, SimilarDialog } from '@/components/Similar'
+import { SimilarDialog } from '@/components/Similar'
 import { Navlink } from '@/components/Navlink'
 
 export interface ArticleType {
@@ -126,10 +124,13 @@ export function ArticleHeader({ article }: { article: ArticleType }) {
 
 interface ArticlePreviewProps {
   article: ArticleType
-  category: string
+  category?: string
 }
 
-export function ArticlePreview({ article, category }: ArticlePreviewProps) {
+export function ArticlePreview({
+  article,
+  category = 'article'
+}: ArticlePreviewProps) {
   return (
     <div>
       {article && (

@@ -25,7 +25,6 @@ export function Navlink({ href, children }: NavlinkProps) {
       >
         {children}
       </div>
-      <hr />
     </Link>
   )
 }

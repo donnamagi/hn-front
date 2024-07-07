@@ -73,7 +73,6 @@ export function FeedSkeleton({ numItems = 1 }: { numItems?: number }) {
             <Skeleton className='h-4 w-5/6 bg-slate-200' />
             <Skeleton className='h-4 w-2/3 bg-slate-200' />
           </div>
-          <hr />
         </div>
       ))}
     </>
