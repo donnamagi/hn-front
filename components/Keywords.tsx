@@ -67,6 +67,7 @@ export function Keywords() {
               key={keyword[0]}
               className='badge'
               size={'sm'}
+              variant={'outline'}
               data-state={interests.includes(keyword[0]) ? 'on' : 'off'}
               onClick={() => {
                 if (interests.includes(keyword[0])) {

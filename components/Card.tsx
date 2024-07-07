@@ -19,7 +19,7 @@ export function ArticleCard({ article }: CardProps) {
     <Link href={`/best/${article.id}`}>
       <Card
         key={article.id}
-        className='transition-all duration-100 border-slate-800 shadow-sm hover:shadow-md'
+        className='transition-all duration-100 border-slate-800 shadow-sm hover:shadow-md h-full flex flex-col'
       >
         <CardHeader>
           <CardTitle>{article.title}</CardTitle>
@@ -30,8 +30,8 @@ export function ArticleCard({ article }: CardProps) {
             {article.content_summary}
           </p>
         </CardContent>
-        <CardFooter className='justify-between'>
-          <div className='flex items-center gap-2 text-sm text-muted-foreground'>
+        <CardFooter className='justify-between mt-auto mb-0'>
+          <div className='flex items-center gap-2 text-sm text-muted-foreground text-orange-500'>
             <ArrowUpIcon className='w-4 h-4' />
             <span>{article.score}</span>
           </div>
