@@ -67,9 +67,9 @@ export function Article({ articleId }: ArticleProps) {
             {article.text && (
               <div>
                 <h5 className='text-lg font-bold'>{article.by}</h5>
-                <p className='my-3'>
+                <div className='my-3'>
                   <DecodedTextArea text={article.text} />
-                </p>
+                </div>
               </div>
             )}
             {commentIds && <Comments commentIds={commentIds} />}
