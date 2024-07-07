@@ -19,8 +19,8 @@ export function Navlink({ href, children }: NavlinkProps) {
     <Link href={href}>
       <div
         className={cn(
-          'transition-colors duration-300 my-1 hover:bg-slate-100 px-3 py-2 rounded-md cursor-pointer',
-          isActive ? 'bg-slate-200 hover:bg-slate-200' : null
+          'transition-colors duration-100 my-1 hover:bg-primary/10 px-3 py-2 rounded-md cursor-pointer',
+          isActive ? 'bg-primary/30 hover:bg-primary/30' : null
         )}
       >
         {children}

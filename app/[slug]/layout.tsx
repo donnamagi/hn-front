@@ -25,7 +25,7 @@ export default function FeedLayout({ children, params }: FeedLayoutProps) {
     <>
       <div className='flex w-full'>
         <SideMenu isInner>
-          <div className='sticky top-0 z-10 border-b bg-zinc-50 py-3'>
+          <div className='sticky top-0 z-10 border-b bg-accent py-3'>
             <span className='text-lg font-semibold tracking-tight'>
               {title}
             </span>

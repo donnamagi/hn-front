@@ -78,7 +78,7 @@ export function Article({ articleId }: ArticleProps) {
             ) : (
               article.content_summary && (
                 <MainContentBox title='TLDR'>
-                  <p>{article.content_summary}</p>
+                  <p className='text-orange-950'>{article.content_summary}</p>
                 </MainContentBox>
               )
             )}
