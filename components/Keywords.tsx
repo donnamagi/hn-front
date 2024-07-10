@@ -7,12 +7,19 @@ import {
   removeLocalStorage,
   setLocalStorage
 } from '@/lib/utils'
-import Link from 'next/link'
-import { buttonVariants } from '@/components/ui/button'
 import { Badge } from './ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog'
 
 export function Keywords() {
-  const [keywords, setKeywords] = useState([])
+  const [keywords, setKeywords] = useState<string[]>([])
   const [interests, setInterests] = useState<string[]>([])
 
   useEffect(() => {
@@ -20,14 +27,26 @@ export function Keywords() {
       try {
         const data = await fetchTopKeywords(30)
         setKeywords(data)
+        checkInterests(data)
       } catch (error) {
         console.error('Error fetching keywords:', error)
       }
     }
 
     fetchKeywords()
-    setInterests(getLocalStorage('interests'))
   }, [])
+
+  const checkInterests = (data: string[]) => {
+    const localInterests = getLocalStorage('interests')
+    setInterests(localInterests)
+
+    // if in interests and not in keywords, add to keywords
+    const toAdd = localInterests.filter((i) => !data.includes(i))
+
+    if (toAdd.length !== 0) {
+      setKeywords([...data, ...toAdd])
+    }
+  }
 
   const addInterest = (keyword: string) => {
     setInterests([...interests, keyword])
@@ -48,49 +67,41 @@ export function Keywords() {
   }
 
   return (
-    <div className='my-5'>
-      <div className='flex items-center justify-between my-4 ms-1'>
-        <div>
-          <h1 className='text-lg md:text-xl font-bold'>
-            Most common topics this week
-          </h1>
-          <p>
-            Get a personalized feed of articles. Start by choosing your
-            interests.
-          </p>
-        </div>
-        <div
-          className={`transition-all duration-200 ${
-            interests.length > 0 ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <Link
-            href='/custom'
-            className={buttonVariants({ variant: 'default' })}
-          >
-            My feed
-          </Link>
-        </div>
-      </div>
+    <>
       {keywords.length !== 0 && (
         <div className='gap-2 flex flex-wrap mt-3'>
           {keywords.map((keyword) => (
             <Badge
-              key={keyword[0]}
-              keyword={keyword[0]}
+              key={keyword}
+              keyword={keyword}
               interests={interests}
               variant='interactive'
               onClick={() => {
-                toggleInterest(keyword[0])
+                toggleInterest(keyword)
               }}
             >
-              {keyword[0]}
+              {keyword}
             </Badge>
           ))}
         </div>
       )}
-    </div>
+    </>
   )
 }
 
-export default Keywords
+export function KeywordsDialog() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className='ms-5'>Set interests</Button>
+      </DialogTrigger>
+      <DialogContent className='sm:max-w-[425px]'>
+        <DialogHeader>
+          <DialogTitle>Most common topics this week</DialogTitle>
+          <DialogDescription>Choose your interests</DialogDescription>
+        </DialogHeader>
+        <Keywords />
+      </DialogContent>
+    </Dialog>
+  )
+}
