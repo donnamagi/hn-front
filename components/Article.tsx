@@ -135,6 +135,50 @@ function ArticleHeader({ article }: { article: ArticleType }) {
     addInterest(interest)
   }
 
+  const ArticleInfo = ({ article }: { article: ArticleType }) => (
+    <p className='text-sm font-light mt-2 tracking-tight'>
+      {article.descendants} points by {article.by}, posted{' '}
+      {new Date(article.time).toLocaleString()}
+      {article.url && (
+        <>
+          {' '}
+          on{' '}
+          <Link
+            href={article.url}
+            rel='noopener noreferrer'
+            className='underline text-sm font-light'
+          >
+            {new URL(article.url).hostname}
+          </Link>
+        </>
+      )}
+    </p>
+  )
+
+  const Keywords = ({
+    keywords,
+    interests,
+    toggleInterest
+  }: {
+    keywords: string[]
+    interests: string[]
+    toggleInterest: any
+  }) => (
+    <div className='my-3 text-pretty gap-2 flex flex-wrap'>
+      {keywords.map((keyword) => (
+        <Badge
+          key={keyword}
+          keyword={keyword}
+          interests={interests}
+          variant={'interactive'}
+          onClick={() => toggleInterest(keyword)}
+        >
+          {keyword}
+        </Badge>
+      ))}
+    </div>
+  )
+
   return (
     <div>
       <div className='flex items-top justify-between'>
@@ -143,37 +187,13 @@ function ArticleHeader({ article }: { article: ArticleType }) {
         </h4>
         {article.content_summary && <SimilarDialog articleId={article.id} />}
       </div>
-      <p className='text-sm font-light mt-2 tracking-tight'>
-        {article.descendants} points by {article.by}, posted{' '}
-        {new Date(article.time).toLocaleString()}
-        {article.url && (
-          <>
-            {' '}
-            on{' '}
-            <Link
-              href={article.url}
-              rel='noopener noreferrer'
-              className='underline text-sm font-light'
-            >
-              {new URL(article.url).hostname}
-            </Link>
-          </>
-        )}
-      </p>
+      <ArticleInfo article={article} />
       {article.keywords && (
-        <div className='my-3 text-pretty gap-2 flex flex-wrap'>
-          {article.keywords.map((keyword) => (
-            <Badge
-              key={keyword}
-              keyword={keyword}
-              interests={interests}
-              variant={'interactive'}
-              onClick={() => toggleInterest(keyword)}
-            >
-              {keyword}
-            </Badge>
-          ))}
-        </div>
+        <Keywords
+          keywords={article.keywords}
+          interests={interests}
+          toggleInterest={toggleInterest}
+        />
       )}
     </div>
   )
