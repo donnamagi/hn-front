@@ -6,11 +6,11 @@ export const Flame = () => (
     width='20'
     height='20'
     viewBox='0 0 24 24'
-    stroke-width='1'
+    strokeWidth='1'
     stroke='#ff4500'
     fill='none'
-    stroke-linecap='round'
-    stroke-linejoin='round'
+    strokeLinecap='round'
+    strokeLinejoin='round'
   >
     <path stroke='none' d='M0 0h24v24H0z' fill='none' />
     <path d='M12 12c2 -2.96 0 -7 -1 -8c0 3.038 -1.773 4.741 -3 6c-1.226 1.26 -2 3.24 -2 5a6 6 0 1 0 12 0c0 -1.532 -1.056 -3.94 -2 -5c-1.786 3 -2.791 3 -4 2z' />
@@ -23,11 +23,11 @@ export const Rocket = () => (
     width='20'
     height='20'
     viewBox='0 0 24 24'
-    stroke-width='1'
+    strokeWidth='1'
     stroke='#ff4500'
     fill='none'
-    stroke-linecap='round'
-    stroke-linejoin='round'
+    strokeLinecap='round'
+    strokeLinejoin='round'
   >
     <path stroke='none' d='M0 0h24v24H0z' fill='none' />
     <path d='M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3' />
@@ -42,11 +42,11 @@ export const Home = () => (
     width='20'
     height='20'
     viewBox='0 0 24 24'
-    stroke-width='1'
+    strokeWidth='1'
     stroke='#ff4500'
     fill='none'
-    stroke-linecap='round'
-    stroke-linejoin='round'
+    strokeLinecap='round'
+    strokeLinejoin='round'
   >
     <path stroke='none' d='M0 0h24v24H0z' fill='none' />
     <path d='M5 12l-2 0l9 -9l9 9l-2 0' />
@@ -61,11 +61,11 @@ export const Sparkles = () => (
     width='20'
     height='20'
     viewBox='0 0 24 24'
-    stroke-width='1'
+    strokeWidth='1'
     stroke='#ff4500'
     fill='none'
-    stroke-linecap='round'
-    stroke-linejoin='round'
+    strokeLinecap='round'
+    strokeLinejoin='round'
   >
     <path stroke='none' d='M0 0h24v24H0z' fill='none' />
     <path d='M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z' />

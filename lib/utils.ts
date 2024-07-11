@@ -71,7 +71,7 @@ export const fetchArticleIds = async (category:string, n: number): Promise<numbe
     return sliced;
   } catch (error) {
     console.error('Error fetching article IDs:', error);
-    return [];
+    throw error;
   }
 };
 
@@ -105,7 +105,7 @@ export const fetchArticle = async (articleId: number): Promise<ArticleType> => {
     return data
   } catch (error) {
     console.error('Error fetching article:', error)
-    return {} as ArticleType
+    throw error
   }
 }
 
@@ -162,7 +162,7 @@ export const fetchThisWeeksArticles = async (): Promise<ArticleType[]> => {
     return data.articles
   } catch (error) {
     console.error('Error fetching article:', error)
-    return []
+    throw error
   }
 }
 
@@ -180,7 +180,7 @@ export const fetchCommentIds = cache(async (articleId: number, kids: number[]): 
 
   } catch (error) {
     console.error('Error fetching comments:', error);
-    return [];
+    throw error;
   }
 });
 
@@ -200,7 +200,7 @@ export const fetchComment = cache(async (commentId: number): Promise<CommentType
 
   } catch (error) {
     console.error('Error fetching comments:', error);
-    return {} as CommentType;
+    throw error;
   }
 });
 
@@ -221,7 +221,7 @@ export const fetchSimilarArticles = cache(async (articleId: number): Promise<Art
 
   } catch (error) {
     console.error('Error fetching articles:', error);
-    return [];
+    throw error;
   }
 })
 
@@ -242,7 +242,7 @@ export const fetchTopKeywords = cache(async (n: number) => {
 
   } catch (error) {
     console.error('Error fetching keywords:', error);
-    return [];
+    throw error;
   }
 })
 
@@ -256,7 +256,7 @@ export const fetchArticlesByKeywords = async (keywords: string[]) => {
     return data.articles;
   } catch (error) {
     console.error('Error fetching articles:', error);
-    return [];
+    throw error;
   }
 }
 
