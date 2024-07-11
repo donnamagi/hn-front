@@ -93,16 +93,7 @@ export const fetchArticle = async (articleId: number): Promise<ArticleType> => {
   } catch (error) {}
 
   try {
-    const data = await fetchHNData(
-      `/item/${articleId}.json`
-    )
-
-    if (!data) {
-      throw new Error('No article found')
-    }
-
-    setInCache(cacheKey, data);
-    return data
+    return fetchHNArticle(articleId)
   } catch (error) {
     console.error('Error fetching article:', error)
     throw error
@@ -148,23 +139,6 @@ export const fetchDbArticlesById = async (ids: number[]) => {
     throw error
   }
 } 
-
-export const fetchThisWeeksArticles = async (): Promise<ArticleType[]> => {
-  try {
-    const data = await fetchBackendData(
-      '/articles/week'
-    )
-
-    data.articles.forEach((article: ArticleType) => {
-      setInCache(`${article.id}`, article)
-    })
-
-    return data.articles
-  } catch (error) {
-    console.error('Error fetching article:', error)
-    throw error
-  }
-}
 
 export const fetchCommentIds = cache(async (articleId: number, kids: number[]): Promise<number[]> => {
   const cacheKey = `comments_${articleId}`;
