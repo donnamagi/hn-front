@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import {
   fetchArticle,
   getLocalStorage,
+  getRelativeTime,
   removeLocalStorage,
   setLocalStorage
 } from '@/lib/utils'
@@ -138,7 +139,7 @@ function ArticleHeader({ article }: { article: ArticleType }) {
   const ArticleInfo = ({ article }: { article: ArticleType }) => (
     <p className='text-sm font-light mt-2 tracking-tight'>
       {article.descendants} points by {article.by}, posted{' '}
-      {new Date(article.time).toLocaleString()}
+      {getRelativeTime(article.time)}{' '}
       {article.url && (
         <>
           {' '}
