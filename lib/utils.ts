@@ -140,24 +140,6 @@ export const fetchDbArticlesById = async (ids: number[]) => {
   }
 } 
 
-export const fetchCommentIds = cache(async (articleId: number, kids: number[]): Promise<number[]> => {
-  const cacheKey = `comments_${articleId}`;
-  if (cacheStore && cacheStore[cacheKey]) {
-    return cacheStore[cacheKey];
-  }
-
-  try {
-    const commentIds = kids.slice(0, 5)
-    setInCache(cacheKey, commentIds);
-
-    return commentIds;
-
-  } catch (error) {
-    console.error('Error fetching comments:', error);
-    throw error;
-  }
-});
-
 export const fetchComment = cache(async (commentId: number): Promise<CommentType> => {
   const cacheKey = `comment_${commentId}`;
   if (cacheStore && cacheStore[cacheKey]) {

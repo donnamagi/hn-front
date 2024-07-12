@@ -49,7 +49,7 @@ export function Article({ articleId }: ArticleProps) {
       try {
         const article = await fetchArticle(articleId)
         setArticle(article)
-        setCommentIds(article.kids?.slice(0, 5) || [])
+        setCommentIds(article.kids || [])
       } catch (err) {
         console.error('Error fetching article:', err)
       } finally {
