@@ -15,7 +15,7 @@ export type NavMap = {
 export const MAIN_NAV: NavMap = {
   '/custom': {
     label: 'Feed',
-    description: 'Your custom feed',
+    description: 'Your custom feed, based on your interests',
     icon: <Home />
   },
   '/best': {

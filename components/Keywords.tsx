@@ -8,7 +8,7 @@ import {
   setLocalStorage
 } from '@/lib/utils'
 import { Badge } from './ui/badge'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -66,10 +66,15 @@ export function Keywords() {
     }
   }
 
+  const clearInterests = () => {
+    setInterests([])
+    localStorage.removeItem('interests')
+  }
+
   return (
     <>
       {keywords.length !== 0 && (
-        <div className='gap-2 flex flex-wrap mt-3'>
+        <div className='gap-2 flex flex-wrap my-3'>
           {keywords.map((keyword) => (
             <Badge
               key={keyword}
@@ -85,6 +90,12 @@ export function Keywords() {
           ))}
         </div>
       )}
+      <div
+        className={buttonVariants({ variant: 'link', size: 'sm' })}
+        onClick={() => clearInterests()}
+      >
+        Clear all
+      </div>
     </>
   )
 }
