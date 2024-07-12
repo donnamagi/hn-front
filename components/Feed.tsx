@@ -9,11 +9,20 @@ import { Skeleton } from '@/components/ui/skeleton'
 export function Feed({ category }: { category: string }) {
   const { articles, articleIds, getArticles } = useArticles()
   const router = useRouter()
-  const articleId = usePathname().split('/').pop()
+  const endOfPath = usePathname().split('/').pop()
 
   useEffect(() => {
     getArticles(category, 30)
   }, [])
+
+  useEffect(() => {
+    // push to first article if user just navigated to category
+    if (articleIds.length > 0) {
+      if (!Number(endOfPath)) {
+        router.push(`/${category}/${articleIds[0]}`)
+      }
+    }
+  }, [articleIds])
 
   const navigationMapping: { [key: string]: number } = {
     ArrowUp: -1,
@@ -22,6 +31,7 @@ export function Feed({ category }: { category: string }) {
 
   const onKeyNav = useCallback(
     (event: KeyboardEvent) => {
+      const articleId = Number(endOfPath)
       if (!articleId) return
 
       const currentIndex = articleIds.indexOf(Number(articleId))
@@ -33,7 +43,7 @@ export function Feed({ category }: { category: string }) {
         router.push(`/${category}/${articleIds[newIndex]}`)
       }
     },
-    [articleId, articleIds, category, router]
+    [endOfPath, articleIds, category, router]
   )
 
   useEffect(() => {
