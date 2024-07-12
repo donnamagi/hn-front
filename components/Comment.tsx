@@ -1,16 +1,15 @@
 import { fetchComment } from '@/lib/utils'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { cn } from '@/lib/utils'
 
 export interface CommentType {
   by: string
   id: number
   kids: number[]
-  parent: number
+  parent: number | null
   text: string
   time: number
   type: string
-  depth: number
 }
 
 function decode(html: string) {
@@ -36,6 +35,7 @@ export function Comment({ comment }: { comment: CommentType }) {
     comment.text === '[deleted]' ||
     comment.text === '[delayed]' ||
     comment.text === '[dead]' ||
+    comment.text === '[flagged]' ||
     comment.text === undefined
   ) {
     return null
@@ -49,10 +49,7 @@ export function Comment({ comment }: { comment: CommentType }) {
     <div
       className={cn('py-3 transition-all duration-300', {
         'opacity-0': loading,
-        'opacity-100': !loading,
-        'ms-5': comment.depth === 1,
-        'ms-10': comment.depth === 2,
-        'ms-15': comment.depth === 3
+        'opacity-100': !loading
       })}
     >
       {comment && (
@@ -68,42 +65,44 @@ export function Comment({ comment }: { comment: CommentType }) {
 }
 
 export function Comments({ commentIds }: { commentIds: number[] }) {
-  const [sortedComments, setSortedComments] = useState<CommentType[]>([])
-  const visited = new Set<number>()
-
+  const [comments, setComments] = useState<{ [key: number]: CommentType }>({})
   if (!commentIds) return null
 
   useEffect(() => {
-    const DFS = async (commentIds: number[], depth: number) => {
-      if (depth > 3) return
+    const addComment = async (id: number, parent: number | null = null) => {
+      if (comments[id]) return
 
-      for (const commentId of commentIds) {
-        if (visited.has(commentId)) continue
+      const comment = await fetchComment(id)
 
-        visited.add(commentId)
-        const comment = await fetchComment(commentId)
-        // Set the current depth
-        comment.depth = depth++
-        setSortedComments((prev) => [...prev, comment])
+      // adding the comment to the comments object here to trigger a state update
+      setComments((prev) => ({
+        ...prev,
+        [id]: { ...comment, parent: parent }
+      }))
 
-        if (comment.kids && comment.kids.length > 0) {
-          await DFS(comment.kids, depth++)
-        }
+      if (comment.kids?.length > 0) {
+        comment.kids.forEach((kid) => {
+          addComment(kid, id)
+        })
       }
     }
 
-    const fetchComments = async () => {
-      await DFS(commentIds, 0)
-    }
-    fetchComments()
+    commentIds.forEach((id) => addComment(id))
   }, [commentIds])
 
-  return (
-    <>
-      {sortedComments &&
-        sortedComments.map((comment) => (
-          <Comment key={comment.id} comment={comment} />
+  const renderComment = (id: number) => {
+    const comment = comments[id]
+    if (!comment) return null
+
+    return (
+      <div key={comment.id}>
+        <Comment comment={comment} />
+        {comment.kids?.map((kidId) => (
+          <div className='ml-6'>{renderComment(kidId)}</div>
         ))}
-    </>
-  )
+      </div>
+    )
+  }
+
+  return <div>{commentIds.map((id) => renderComment(id))}</div>
 }
