@@ -6,6 +6,7 @@ import { CommentType } from '@/components/Comment';
 
 const HN_API = 'https://hacker-news.firebaseio.com/v0';
 const BACKEND = 'https://api.hackernews.news';
+// const BACKEND = 'http://localhost:8000';
 
 
 const cacheStore: { [key: string]: any } = {};

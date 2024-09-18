@@ -4,35 +4,36 @@ import Recents from '@/components/Recents'
 import { Keywords } from '@/components/Keywords'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
+import Podcasts from '@/components/Podcasts'
 
 export default function Page() {
   return (
     <ScrollArea>
       <div className='content-wrapper'>
         <div className='content flex justify-center'>
-          <div className='min-h-screen max-w-3xl p-3 md:p-9'>
-            <div className='my-5'>
-              <div className='flex items-center justify-between my-4 ms-1'>
-                <div>
-                  <h1 className='text-lg md:text-xl font-bold'>
-                    Trending topics
-                  </h1>
-                  <p>
-                    Get a personalized feed of articles. Start by choosing your
-                    interests.
-                  </p>
-                </div>
-
-                <Link
-                  href='/custom'
-                  className={buttonVariants({ variant: 'default' })}
-                >
-                  My feed
-                </Link>
+          <div className='min-h-screen max-w-3xl p-3 md:p-9 mt-5 space-y-5'>
+            <div className='flex items-center justify-between my-4 ms-1'>
+              <div>
+                <h1 className='text-lg md:text-xl font-bold'>
+                  Trending topics
+                </h1>
+                <p>
+                  Get a personalized feed of articles. Start by choosing your
+                  interests.
+                </p>
               </div>
-              <Keywords />
+
+              <Link
+                href='/custom'
+                className={buttonVariants({ variant: 'default' })}
+              >
+                My feed
+              </Link>
             </div>
+            <Keywords />
+
             <Recents />
+            <Podcasts />
           </div>
         </div>
       </div>
