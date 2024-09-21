@@ -1,4 +1,5 @@
 import React from 'react'
+// https://tablericons.com
 
 export const Flame = () => (
   <svg
@@ -69,5 +70,24 @@ export const Sparkles = () => (
   >
     <path stroke='none' d='M0 0h24v24H0z' fill='none' />
     <path d='M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z' />
+  </svg>
+)
+
+export const Headphones = () => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='20'
+    height='20'
+    viewBox='0 0 24 24'
+    strokeWidth='1'
+    stroke='#ff4500'
+    fill='none'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+  >
+    <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+    <path d='M4 13m0 2a2 2 0 0 1 2 -2h1a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-1a2 2 0 0 1 -2 -2z' />
+    <path d='M15 13m0 2a2 2 0 0 1 2 -2h1a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-1a2 2 0 0 1 -2 -2z' />
+    <path d='M4 15v-3a8 8 0 0 1 16 0v3' />
   </svg>
 )

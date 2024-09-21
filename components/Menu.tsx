@@ -1,5 +1,5 @@
 import { Navlink } from '@/components/Navlink'
-import { Flame, Home, Rocket, Sparkles } from '@/lib/icons'
+import { Flame, Home, Rocket, Sparkles, Headphones } from '@/lib/icons'
 import Link from 'next/link'
 
 export type NavLink = {
@@ -36,7 +36,7 @@ export const MAIN_NAV: NavMap = {
   '/podcasts': {
     label: 'Podcasts',
     description: 'Latest on Hacker News regarding AI news and trends',
-    icon: <Sparkles />
+    icon: <Headphones />
   }
 }
 
