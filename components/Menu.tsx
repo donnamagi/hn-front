@@ -32,6 +32,11 @@ export const MAIN_NAV: NavMap = {
     label: 'Show',
     description: 'What the community is building',
     icon: <Sparkles />
+  },
+  '/podcasts': {
+    label: 'Podcasts',
+    description: 'Latest on Hacker News regarding AI news and trends',
+    icon: <Sparkles />
   }
 }
 

@@ -11,19 +11,14 @@ import { DownloadIcon } from '@radix-ui/react-icons'
 
 export default function Component() {
   return (
-    <div className=''>
-      <div className='flex items-center justify-between my-4 ms-1'>
-        <h2 className='text-xl font-light mb-0 pb-0 italic'>
-          or get the podcast
-        </h2>
-      </div>
+    <div className='my-3'>
       <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
         <OfferCard
           title='Recent AI News'
           description='Get a recap'
           features={[
-            'An update on this weeks breakthroughs',
-            'Curated by the Hacker News community',
+            'This weeks AI breakthroughs',
+            'Community discussions',
             '3 minute recap'
           ]}
           buttonText='Download'
@@ -32,7 +27,7 @@ export default function Component() {
           title='Trending Topics'
           description='Hottest of HN'
           features={[
-            'Curated from popular tech forums',
+            'Hottest topics of HN',
             'Best-in-class AI narration',
             '3 minute recap'
           ]}
@@ -44,8 +39,8 @@ export default function Component() {
           features={[
             'You choose the topics',
             'Best-in-class AI narration',
-            'Scheduled weekly WhatsApp delivery',
-            '2-7 minute episodes'
+            'Delivered weekly via WhatsApp',
+            '7-10 minute episodes'
           ]}
           buttonText='Subscribe for 5€/week'
         />
@@ -66,7 +61,10 @@ export const OfferCard = ({
   buttonText: string
 }) => {
   return (
-    <Card className='shadow-none border-slate-800'>
+    <Card className='shadow-none border-slate-800 relative'>
+      <div className='absolute -top-2 -right-2 bg-primary text-xs px-2 py-1 text-white rounded-full transform rotate-12'>
+        Coming Soon
+      </div>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
@@ -79,12 +77,15 @@ export const OfferCard = ({
         </ul>
       </CardContent>
       <CardFooter className='mt-auto mb-0 flex justify-center'>
-        <Button
-          className='border-primary text-primary hover:text-primary w-full'
-          variant='outline'
-        >
-          {buttonText === 'Download' ? <DownloadIcon /> : buttonText}
-        </Button>
+        <div className='w-full'>
+          <Button
+            className='border-primary text-primary hover:text-primary w-full'
+            variant='outline'
+            disabled
+          >
+            {buttonText === 'Download' ? <DownloadIcon /> : buttonText}
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   )

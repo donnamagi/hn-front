@@ -4,7 +4,6 @@ import Recents from '@/components/Recents'
 import { Keywords } from '@/components/Keywords'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
-import Podcasts from '@/components/Podcasts'
 
 export default function Page() {
   return (
@@ -31,9 +30,7 @@ export default function Page() {
               </Link>
             </div>
             <Keywords />
-
             <Recents />
-            <Podcasts />
           </div>
         </div>
       </div>
