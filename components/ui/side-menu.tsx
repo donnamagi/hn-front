@@ -25,7 +25,9 @@ export default function SideMenu({
         className
       )}
     >
-      <div className='bg-accent px-3 text-sm'>{children}</div>
+      <div className='bg-accent px-3 text-sm flex flex-col h-full'>
+        {children}
+      </div>
     </ScrollArea>
   )
 }
