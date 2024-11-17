@@ -2,6 +2,8 @@ import { Article } from '@/components/Article'
 import { notFound } from 'next/navigation'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import BackButton from '@/components/BackButton'
+import { fetchArticle } from '@/lib/utils'
+import { Metadata } from 'next'
 
 interface ArticleProps {
   params: {
@@ -9,7 +11,20 @@ interface ArticleProps {
   }
 }
 
-export default function Page({ params }: ArticleProps) {
+export async function generateMetadata({
+  params
+}: ArticleProps): Promise<Metadata> {
+  const { id } = params
+  const article = await fetchArticle(id)
+  return {
+    title: article?.title || 'Hacker News Clone',
+    description:
+      article?.content_summary?.split(' ').slice(0, 200).join(' ') ||
+      `An article from Hacker News on the topic of "${article?.title}"`
+  }
+}
+
+export default async function Page({ params }: ArticleProps) {
   const { id } = params
 
   if (isNaN(id)) {
