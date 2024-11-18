@@ -91,3 +91,35 @@ export const Headphones = () => (
     <path d='M4 15v-3a8 8 0 0 1 16 0v3' />
   </svg>
 )
+
+export const CommandIcon = () => (
+  <svg
+    width='15'
+    height='15'
+    viewBox='0 0 15 15'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <path
+      d='M5.5 5.5H3.5C2.39543 5.5 1.5 4.60457 1.5 3.5V3.5C1.5 2.39543 2.39543 1.5 3.5 1.5V1.5C4.60457 1.5 5.5 2.39543 5.5 3.5V5.5ZM5.5 5.5H9.5M5.5 5.5V9.5M5.5 9.5H3.5C2.39543 9.5 1.5 10.3954 1.5 11.5V11.5C1.5 12.6046 2.39543 13.5 3.5 13.5V13.5C4.60457 13.5 5.5 12.6046 5.5 11.5V9.5ZM5.5 9.5H9.5M9.5 5.5H11.5C12.6046 5.5 13.5 4.60457 13.5 3.5V3.5C13.5 2.39543 12.6046 1.5 11.5 1.5V1.5C10.3954 1.5 9.5 2.39543 9.5 3.5V5.5ZM9.5 5.5V9.5M9.5 9.5H11.5C12.6046 9.5 13.5 10.3954 13.5 11.5V11.5C13.5 12.6046 12.6046 13.5 11.5 13.5V13.5C10.3954 13.5 9.5 12.6046 9.5 11.5V9.5Z'
+      stroke='currentColor'
+    />
+  </svg>
+)
+
+export const ChevronLeftIcon = () => (
+  <svg
+    width='15'
+    height='15'
+    viewBox='0 0 15 15'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <path
+      d='M8.5 10.5L5.5 7.5L8.5 4.5'
+      stroke='currentColor'
+      stroke-linecap='round'
+      stroke-linejoin='round'
+    />
+  </svg>
+)
