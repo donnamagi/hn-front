@@ -19,9 +19,7 @@ export default function SideMenu({
     <ScrollArea
       className={cn(
         ' bg-accent flex flex-col border-r',
-        isInner
-          ? 'w-0 md:w-60 lg:w-80 xl:w-2/5 w-max-xl'
-          : 'w-20 md:w-30 xl:w-56',
+        isInner ? 'w-0 lg:w-80 xl:w-2/5 w-max-xl' : 'w-20 lg:w-48 xl:w-56',
         className
       )}
     >
