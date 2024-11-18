@@ -118,8 +118,8 @@ export const ChevronLeftIcon = () => (
     <path
       d='M8.5 10.5L5.5 7.5L8.5 4.5'
       stroke='currentColor'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </svg>
 )

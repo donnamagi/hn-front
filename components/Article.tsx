@@ -63,7 +63,7 @@ export function Article({ articleId }: ArticleProps) {
   return (
     <div className='flex justify-center'>
       <div
-        className={`max-w-2xl py-10 transition-all duration-100 ${
+        className={`max-w-2xl py-3 lg:py-10 transition-all duration-100 ${
           loading ? 'opacity-0' : 'opacity-100'
         }`}
       >
