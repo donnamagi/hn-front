@@ -4,10 +4,12 @@ import Recents from '@/components/Recents'
 import { Keywords } from '@/components/Keywords'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
+import { FloatingHeader } from '@/components/ui/header'
 
 export default function Page() {
   return (
     <ScrollArea>
+      <FloatingHeader scrollTitle='' />
       <div className='content-wrapper'>
         <div className='content flex justify-center'>
           <div className='min-h-screen max-w-3xl p-3 md:p-9 mt-5 space-y-5'>

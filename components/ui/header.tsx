@@ -92,10 +92,9 @@ export const FloatingHeader = memo(
               <div className='flex flex-1 items-center justify-between'>
                 {scrollTitle && (
                   <span
-                    className='line-clamp-2 font-semibold tracking-tight'
+                    className='line-clamp-2 font-medium tracking-tight'
                     style={{
-                      transform: `translateY(${transformValues.translateY}%)`,
-                      opacity: transformValues.opacity
+                      transform: `translateY(${transformValues.translateY}%)`
                     }}
                   >
                     {scrollTitle}

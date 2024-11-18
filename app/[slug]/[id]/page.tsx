@@ -3,9 +3,12 @@ import { notFound } from 'next/navigation'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Metadata } from 'next'
 import { fetchArticle } from '@/lib/utils'
+import { FloatingHeader } from '@/components/ui/header'
+
 interface ArticleProps {
   params: {
     id: number
+    slug: string
   }
 }
 
@@ -23,7 +26,7 @@ export async function generateMetadata({
 }
 
 export default function Page({ params }: ArticleProps) {
-  const { id } = params
+  const { id, slug } = params
 
   if (isNaN(id)) {
     return notFound()
@@ -31,8 +34,9 @@ export default function Page({ params }: ArticleProps) {
 
   return (
     <ScrollArea>
+      <FloatingHeader scrollTitle={slug} goBackLink={`/${slug}`} />
       <div className='content-wrapper'>
-        <div className='content p-3 md:p-9'>
+        <div className='content p-3 lg:p-9'>
           <Article articleId={id} />
         </div>
       </div>

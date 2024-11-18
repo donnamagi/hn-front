@@ -16,10 +16,12 @@ export function Feed({ category }: { category: string }) {
   }, [])
 
   useEffect(() => {
-    // push to first article if user just navigated to category
-    if (articleIds.length > 0) {
-      if (!Number(endOfPath)) {
-        router.push(`/${category}/${articleIds[0]}`)
+    // push to first article if user just navigated to category and not mobile
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+      if (articleIds.length > 0) {
+        if (!Number(endOfPath)) {
+          router.push(`/${category}/${articleIds[0]}`)
+        }
       }
     }
   }, [articleIds])
