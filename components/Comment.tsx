@@ -95,14 +95,20 @@ export function Comments({ commentIds }: { commentIds: number[] }) {
     if (!comment) return null
 
     return (
-      <div key={comment.id}>
+      <div key={comment.id} className='max-w-full'>
         <Comment comment={comment} />
         {comment.kids?.map((kidId) => (
-          <div className='ml-6'>{renderComment(kidId)}</div>
+          <div key={kidId} className='pl-4 overflow-x-hidden max-w-full'>
+            {renderComment(kidId)}
+          </div>
         ))}
       </div>
     )
   }
 
-  return <div>{commentIds.map((id) => renderComment(id))}</div>
+  return (
+    <div className='overflow-x-hidden max-w-full'>
+      {commentIds.map((id) => renderComment(id))}
+    </div>
+  )
 }

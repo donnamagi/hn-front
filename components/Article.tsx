@@ -63,12 +63,12 @@ export function Article({ articleId }: ArticleProps) {
   return (
     <div className='flex justify-center'>
       <div
-        className={`max-w-2xl py-3 lg:py-10 transition-all duration-100 ${
+        className={`md:max-w-2xl max-w-full py-3 lg:py-10 transition-all duration-100 ${
           loading ? 'opacity-0' : 'opacity-100'
         }`}
       >
         {article && (
-          <div>
+          <div className='max-w-full md:max-w-2xl'>
             <div className='sticky top-0 z-10 border-b bg-white py-3'>
               <ArticleHeader article={article} />
             </div>
