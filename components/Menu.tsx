@@ -64,7 +64,12 @@ export const MainMenu = () => (
       </Link>
       <p className='text-muted-foreground text-xs text-center'>
         with ♡ by{' '}
-        <a href='https://donnamagi.com' className='underline text-xs'>
+        <a
+          href='https://donnamagi.com'
+          className='underline text-xs'
+          target='_blank'
+          rel='nofollow noopener noreferrer'
+        >
           donna
         </a>
       </p>
