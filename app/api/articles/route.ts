@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { fetchDbArticlesById } from '@/lib/utils'
 
 export async function POST(request: Request) {
   try {

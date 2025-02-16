@@ -2,11 +2,12 @@ import { NextResponse } from 'next/server'
 
 export async function GET(
   request: Request,
-  { params }: { params: { count: string } }
+  { params }: { params: Promise<{ count: string }> }
 ) {
   try {
-    const count = parseInt(params.count)
-    if (isNaN(count) || count < 1) {
+    const { count } = await params
+    const numericCount = parseInt(count)
+    if (isNaN(numericCount) || numericCount < 1) {
       return NextResponse.json(
         { error: 'Invalid count parameter' },
         { status: 400 }
