@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { milvusService } from '@/services/milvus'
 
 export async function GET(
   request: Request,
@@ -14,10 +15,12 @@ export async function GET(
       )
     }
 
-    const articles = {}
+    const results = await milvusService.getSimilar(articleId);
+    const similarIds = results.map(result => result.id);
     
-    return NextResponse.json({ articles })
+    return NextResponse.json({ similarIds })
   } catch (error) {
+    console.error('Error fetching similar articles:', error);
     return NextResponse.json(
       { error: 'Failed to fetch similar articles' },
       { status: 500 }
