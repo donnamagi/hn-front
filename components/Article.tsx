@@ -166,17 +166,19 @@ function ArticleHeader({ article }: { article: ArticleType }) {
     toggleInterest: any
   }) => (
     <div className='my-3 text-pretty gap-2 flex flex-wrap'>
-      {keywords.map((keyword) => (
-        <Badge
-          key={keyword}
-          keyword={keyword}
-          interests={interests}
-          variant={'interactive'}
-          onClick={() => toggleInterest(keyword)}
-        >
-          {keyword}
-        </Badge>
-      ))}
+      {Array.isArray(keywords) &&
+        keywords.length > 0 &&
+        keywords.map((keyword) => (
+          <Badge
+            key={keyword}
+            keyword={keyword}
+            interests={interests}
+            variant={'interactive'}
+            onClick={() => toggleInterest(keyword)}
+          >
+            {keyword}
+          </Badge>
+        ))}
     </div>
   )
 

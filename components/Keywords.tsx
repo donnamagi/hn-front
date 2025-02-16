@@ -73,9 +73,9 @@ export function Keywords() {
 
   return (
     <>
-      {keywords.length !== 0 && (
+      {Array.isArray(keywords) && keywords.length !== 0 && (
         <div className='gap-2 flex flex-wrap my-3'>
-          {keywords.map((keyword) => (
+          {(keywords || []).map((keyword) => (
             <Badge
               key={keyword}
               keyword={keyword}
