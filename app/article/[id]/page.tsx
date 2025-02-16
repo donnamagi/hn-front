@@ -6,15 +6,15 @@ import { fetchArticle } from '@/lib/utils'
 import { Metadata } from 'next'
 
 interface ArticleProps {
-  params: {
+  params: Promise<{
     id: number
-  }
+  }>
 }
 
 export async function generateMetadata({
   params
 }: ArticleProps): Promise<Metadata> {
-  const { id } = params
+  const { id } = await params
   const article = await fetchArticle(id)
   return {
     title: article?.title || 'Hacker News Clone',
@@ -25,7 +25,7 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: ArticleProps) {
-  const { id } = params
+  const { id } = await params
 
   if (isNaN(id)) {
     return notFound()

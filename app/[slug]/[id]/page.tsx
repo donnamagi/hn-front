@@ -5,18 +5,18 @@ import { Metadata } from 'next'
 import { fetchArticle } from '@/lib/utils'
 import { FloatingHeader } from '@/components/ui/header'
 
-interface ArticleProps {
-  params: {
-    id: number
+interface PageProps {
+  params: Promise<{
+    id: string
     slug: string
-  }
+  }>
 }
 
 export async function generateMetadata({
   params
-}: ArticleProps): Promise<Metadata> {
-  const { id } = params
-  const article = await fetchArticle(id)
+}: PageProps): Promise<Metadata> {
+  const { id } = await params
+  const article = await fetchArticle(parseInt(id, 10))
   return {
     title: article?.title || 'Hacker News Clone',
     description:
@@ -25,10 +25,11 @@ export async function generateMetadata({
   }
 }
 
-export default function Page({ params }: ArticleProps) {
-  const { id, slug } = params
+export default async function Page({ params }: PageProps) {
+  const { id, slug } = await params
+  const numericId = parseInt(id, 10)
 
-  if (isNaN(id)) {
+  if (isNaN(numericId)) {
     return notFound()
   }
 
@@ -37,7 +38,7 @@ export default function Page({ params }: ArticleProps) {
       <FloatingHeader scrollTitle={slug} goBackLink={`/${slug}`} />
       <div className='content-wrapper'>
         <div className='content p-3 lg:p-9'>
-          <Article articleId={id} />
+          <Article articleId={numericId} />
         </div>
       </div>
     </ScrollArea>
