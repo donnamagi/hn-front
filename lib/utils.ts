@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge"
 import { CommentType } from '@/components/Comment';
 
 const HN_API = 'https://hacker-news.firebaseio.com/v0';
-const BACKEND = 'https://api.hackernews.news';
+// const BACKEND = 'https://api.hackernews.news';
 // const BACKEND = 'http://localhost:8000';
 
 
@@ -21,8 +21,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const fetchBackendData = async (path: string) => {
-
-  const response = await fetch(BACKEND + path);
+  const response = await fetch(`/api${path}`);
   if (!response.ok) {
     throw new Error('Response not OK');
   }
@@ -40,7 +39,7 @@ const fetchHNData = async (path: string) => {
 
 const postBackendData = async (path: string, data: any) => {
 
-  const response = await fetch( BACKEND + path , {
+  const response = await fetch( `/api${path}` , {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
