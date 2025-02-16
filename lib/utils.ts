@@ -75,22 +75,12 @@ export const fetchArticleIds = async (category:string, n: number): Promise<numbe
   }
 };
 
-// Tries DB first, then falls back to HN API
+// Tries cache first, then falls back to HN API
 export const fetchArticle = async (articleId: number): Promise<ArticleType> => {
   const cacheKey = `${articleId}`;
   if (cacheStore && cacheStore[cacheKey]) {
     return cacheStore[cacheKey];
   }
-  try {
-    const data = await fetchBackendData(
-      `/articles/${articleId}`
-    )
-
-    if (data.article) {
-      setInCache(cacheKey, data.article);
-      return data.article
-    }
-  } catch (error) {}
 
   try {
     return fetchHNArticle(articleId)
@@ -148,7 +138,7 @@ export const fetchComment = cache(async (commentId: number): Promise<CommentType
 
   try {
     const data = await fetchHNData(
-      `/item//${commentId}.json`
+      `/item/${commentId}.json`
     );
 
     setInCache(cacheKey, data);
